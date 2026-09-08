@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L2 & R1 — 互動自學講義</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Figtree:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink: '#2A2E37',
+        paper: '#FBF9F4',
+        card: '#FFFFFF',
+        teal: '#2F7D6E',
+        tealsoft: '#E4F0EC',
+        rose: '#C97A6D',
+        rosesoft: '#F7E9E5',
+        band: '#EFEAE0',
+        indigo: '#4C5B8A',
+        indigosoft: '#E7EAF3',
+      },
+      fontFamily: {
+        display: ['Fraunces', 'Noto Sans TC', 'serif'],
+        sans: ['Figtree', 'Noto Sans TC', 'sans-serif'],
+        han: ['Noto Sans TC', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background:#FBF9F4; color:#2A2E37; }
+  .chunk {
+    background: linear-gradient(180deg, transparent 12%, #FCE96A 12%, #FCE96A 90%, transparent 90%);
+    font-weight: 700;
+    padding: 0 .12em;
+    border-radius: 2px;
+  }
+  .en { font-family:'Figtree','Noto Sans TC',sans-serif; line-height:1.75; }
+  .zh { font-family:'Noto Sans TC',sans-serif; line-height:2.0; }
+  .panel { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .panel.open { max-height:6000px; }
+  .chev { transition: transform .3s ease; }
+  .chev.open { transform: rotate(180deg); }
+  details > summary { list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+  @media (prefers-reduced-motion: reduce){ .panel{transition:none;} .chev{transition:none;} html{scroll-behavior:auto;} }
+  .navlink.active { color:#2F7D6E; font-weight:700; }
+  ::selection { background:#FCE96A; }
+
+  .speak-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.9rem; height:1.9rem; flex:0 0 auto;
+    border-radius:9999px; cursor:pointer;
+    background:#E4F0EC; color:#2F7D6E; border:1px solid rgba(47,125,110,.2);
+    transition:background .15s, transform .1s; vertical-align:middle;
+  }
+  .speak-btn:hover{ background:#d4e8e1; }
+  .speak-btn:active{ transform:scale(.92); }
+  .speak-btn.playing{ background:#2F7D6E; color:#fff; }
+  .speak-btn.loading{ background:#E4F0EC; color:#2F7D6E; }
+  .speak-btn .ico-spin{ animation:spin .8s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .speak-btn svg{ width:1rem; height:1rem; }
+  .speak-btn:focus-visible{ outline:2px solid #2F7D6E; outline-offset:2px; }
+  .rw{ border-radius:3px; padding:0 .04em; transition:background .06s; }
+  .rw.spoken{ background:#FCE96A; box-shadow:0 0 0 2px #FCE96A; }
+  .say{ display:inline; }
+  @media (prefers-reduced-motion: reduce){ .speak-btn{transition:none;} .rw{transition:none;} }
+
+  /* lesson tab switch */
+  .lesson-tab{ transition:all .2s; }
+  .lesson-tab.active{ background:#2F7D6E; color:#fff; }
+  .lesson-pane[hidden]{ display:none; }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- ===== HERO ===== -->
+<header class="relative overflow-hidden border-b border-band">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 pt-14 pb-10">
+    <p class="zh text-teal font-medium tracking-wide text-sm mb-3">高中英文 · 生字片語自學講義</p>
+    <h1 class="font-display text-4xl sm:text-6xl font-semibold leading-[1.05] tracking-tight">
+      L2 &amp; R1 互動講義
+    </h1>
+    <p class="zh text-lg sm:text-xl text-ink/70 mt-3">L2 Language Construction ｜ R1 3D Printing: Imagination Is the Only Limit</p>
+    <div class="zh mt-6 max-w-2xl text-ink/75 leading-relaxed bg-rosesoft/60 border border-rose/20 rounded-2xl px-5 py-4">
+      這是一份為你設計的<strong>零刪減</strong>互動筆記，收錄 <strong>L2</strong> 與 <strong>R1</strong> 兩課。卡片預設只顯示<strong>單字與例句</strong>，句子裡的<span class="chunk">核心搭配語塊</span>會用螢光黃標出來。想看更多時，再點開卡片下方的按鈕：搭配語塊分析、衍生字、完整中文翻譯。一次只看一層，不必怕文字牆。
+    </div>
+    <div class="mt-6 flex flex-wrap gap-2 text-sm zh">
+      <span class="inline-flex items-center gap-2 bg-tealsoft text-teal rounded-full px-3 py-1"><span class="w-2 h-2 rounded-full bg-teal"></span>點按鈕展開／收合</span>
+      <span class="inline-flex items-center gap-2 bg-band text-ink/70 rounded-full px-3 py-1"><span class="chunk px-1">螢光黃</span>＝核心語塊</span>
+      <span class="inline-flex items-center gap-2 bg-tealsoft text-teal rounded-full px-3 py-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+        單字＝美式真人發音｜例句＝美式朗讀跟讀
+      </span>
+    </div>
+    <p id="speech-warn" class="zh text-sm text-rose mt-3 hidden">⚠ 目前的瀏覽器不支援語音朗讀，建議改用 Chrome、Edge 或 Safari 開啟本頁。</p>
+    <p class="zh text-xs text-ink/45 mt-2">💡 單字發音為線上真人音檔（需連網）；少數字典查無真人音檔時，會自動改用美式語音合成。</p>
+  </div>
+</header>
+
+<!-- ===== LESSON SWITCHER ===== -->
+<div class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b border-band">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-3 flex items-center gap-3">
+    <span class="zh text-sm text-ink/50 mr-1">選擇課次：</span>
+    <button data-lesson="L2" class="lesson-tab active zh font-bold text-sm rounded-full px-5 py-2 border border-teal/30 bg-white text-teal">L2 語言建構</button>
+    <button data-lesson="R1" class="lesson-tab zh font-bold text-sm rounded-full px-5 py-2 border border-teal/30 bg-white text-teal">R1 3D 列印</button>
+  </div>
+  <nav class="border-t border-band">
+    <div id="subnav" class="max-w-5xl mx-auto px-5 sm:px-8 py-2.5 flex gap-4 overflow-x-auto text-sm zh whitespace-nowrap"></div>
+  </nav>
+</div>
+
+<main class="max-w-5xl mx-auto px-5 sm:px-8 py-10">
+
+<!-- ===================== L2 PANE ===================== -->
+<div class="lesson-pane" data-pane="L2">
+  <section id="L2-part1" class="scroll-mt-32 mb-16">
+    <div class="flex items-baseline gap-3 mb-6">
+      <span class="font-display text-teal text-2xl">Part I</span>
+      <h2 class="zh text-2xl font-bold">Words for Production ｜生產字彙</h2>
+    </div>
+    <div id="L2-part1-cards" class="space-y-5"></div>
+  </section>
+
+  <section id="L2-part2" class="scroll-mt-32 mb-16">
+    <div class="flex items-baseline gap-3 mb-6">
+      <span class="font-display text-teal text-2xl">Part II</span>
+      <h2 class="zh text-2xl font-bold">Idioms &amp; Phrases ｜片語與慣用語</h2>
+    </div>
+    <div id="L2-part2-cards" class="space-y-5"></div>
+  </section>
+
+  <section id="L2-part3" class="scroll-mt-32 mb-16">
+    <div class="flex items-baseline gap-3 mb-6">
+      <span class="font-display text-teal text-2xl">Part III</span>
+      <h2 class="zh text-2xl font-bold">Words for Recognition ｜課文辨識字彙</h2>
+    </div>
+    <div id="L2-part3-cards" class="space-y-5"></div>
+  </section>
+
+  <section id="L2-part4" class="scroll-mt-32 mb-16">
+    <div class="flex items-baseline gap-3 mb-6">
+      <span class="font-display text-teal text-2xl">Part IV</span>
+      <h2 class="zh text-2xl font-bold">Sentence Patterns ｜句型剖析</h2>
+    </div>
+    <div id="L2-part4-content" class="space-y-6"></div>
+  </section>
+</div>
+
+<!-- ===================== R1 PANE ===================== -->
+<div class="lesson-pane" data-pane="R1" hidden>
+  <section id="R1-part1" class="scroll-mt-32 mb-16">
+    <div class="flex items-baseline gap-3 mb-6">
+      <span class="font-display text-teal text-2xl">Part I</span>
+      <h2 class="zh text-2xl font-bold">Words for Production ｜生產字彙</h2>
+    </div>
+    <div id="R1-part1-cards" class="space-y-5"></div>
+  </section>
+
+  <section id="R1-part2" class="scroll-mt-32 mb-16">
+    <div class="flex items-baseline gap-3 mb-6">
+      <span class="font-display text-teal text-2xl">Part II</span>
+      <h2 class="zh text-2xl font-bold">Idioms &amp; Phrases ｜片語與慣用語</h2>
+    </div>
+    <div id="R1-part2-cards" class="space-y-5"></div>
+  </section>
+</div>
+
+</main>
+
+<footer class="border-t border-band mt-8">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-8 zh text-sm text-ink/50">
+    L2 &amp; R1 — Complete Study Guide ｜ 零刪減互動版 · 為專注學習而設計
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function hl(text, chunks){
+  let out = text;
+  (chunks||[]).forEach(c=>{
+    const idx = out.indexOf(c);
+    if(idx>-1){
+      out = out.slice(0,idx) + '<span class="chunk">' + c + '</span>' + out.slice(idx+c.length);
+    }
+  });
+  return out;
+}
+
+/* ============================================================
+   SPEECH ENGINE (real-person word audio + TTS read-along)
+   ============================================================ */
+const Speech = (function(){
+  const supported = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  let voice = null, current = null, audioEl = null, audioBtn = null;
+  const audioCache = {};
+  function pickVoice(){
+    if(!supported) return;
+    const vs = speechSynthesis.getVoices();
+    if(!vs.length) return;
+    voice = vs.find(v=>/en-US/i.test(v.lang) && /google/i.test(v.name))
+         || vs.find(v=>/Samantha|Alex|Aaron|Nicky|Google US/i.test(v.name))
+         || vs.find(v=>/en-US/i.test(v.lang))
+         || vs.find(v=>/^en/i.test(v.lang)) || vs[0];
+  }
+  if(supported){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+  function resetBtn(btn){
+    if(!btn) return;
+    btn.classList.remove('playing','loading');
+    const play=btn.querySelector('.ico-play'), stop=btn.querySelector('.ico-stop'), spin=btn.querySelector('.ico-spin');
+    if(play) play.style.display=''; if(stop) stop.style.display='none'; if(spin) spin.style.display='none';
+  }
+  function setState(btn, state){
+    if(!btn) return;
+    const play=btn.querySelector('.ico-play'), stop=btn.querySelector('.ico-stop'), spin=btn.querySelector('.ico-spin');
+    btn.classList.toggle('playing', state==='playing');
+    btn.classList.toggle('loading', state==='loading');
+    if(play) play.style.display = state==='play' ? '' : 'none';
+    if(spin) spin.style.display = state==='loading' ? '' : 'none';
+    if(stop) stop.style.display = state==='playing' ? '' : 'none';
+  }
+  function stopAll(){
+    if(supported) speechSynthesis.cancel();
+    if(audioEl){ audioEl.pause(); }
+    if(current){ current.spans.forEach(s=>s.classList.remove('spoken')); resetBtn(current.btn); current=null; }
+    if(audioBtn){ resetBtn(audioBtn); audioBtn=null; }
+  }
+  async function fetchAudio(word){
+    const key = word.toLowerCase().replace(/[^a-z\- ]/g,'').trim();
+    if(key in audioCache) return audioCache[key];
+    try{
+      const r = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(key), {mode:'cors'});
+      if(!r.ok) throw 0;
+      const data = await r.json();
+      let list=[];
+      data.forEach(e=>(e.phonetics||[]).forEach(p=>{ if(p.audio) list.push(p.audio); }));
+      list = list.map(u=> u.startsWith('//') ? 'https:'+u : u);
+      const us = list.find(u=>/_us_|-us\.|\/us\//i.test(u));
+      audioCache[key] = us || list[0] || null;
+    }catch(_){ audioCache[key] = null; }
+    return audioCache[key];
+  }
+  async function speakWord(word, btn){
+    if(audioBtn===btn){ stopAll(); return; }
+    stopAll(); setState(btn,'loading');
+    let url=null; try{ url = await fetchAudio(word); }catch(_){ url=null; }
+    if(url){
+      if(!audioEl){ audioEl=new Audio(); }
+      audioEl.src=url; audioBtn=btn;
+      audioEl.onended=()=>{ if(audioBtn===btn){ resetBtn(btn); audioBtn=null; } };
+      audioEl.onerror=()=>{ if(audioBtn===btn){ audioBtn=null; ttsWord(word, btn); } };
+      setState(btn,'playing');
+      try{ await audioEl.play(); }catch(_){ audioBtn=null; ttsWord(word, btn); }
+    }else{ ttsWord(word, btn); }
+  }
+  function ttsWord(word, btn){
+    if(!supported){ resetBtn(btn); return; }
+    const u=new SpeechSynthesisUtterance(word);
+    if(voice) u.voice=voice; u.lang='en-US'; u.rate=0.9;
+    setState(btn,'playing');
+    u.onend=()=>{ resetBtn(btn); }; u.onerror=()=>{ resetBtn(btn); };
+    current={btn, spans:[]}; speechSynthesis.speak(u);
+  }
+  function prepare(sayEl){
+    if(sayEl.dataset.prepared) return;
+    const walker=document.createTreeWalker(sayEl, NodeFilter.SHOW_TEXT, null);
+    const tns=[]; let n; while((n=walker.nextNode())) tns.push(n);
+    tns.forEach(tn=>{
+      const parts=tn.nodeValue.split(/(\s+)/);
+      const frag=document.createDocumentFragment();
+      parts.forEach(part=>{
+        if(part.trim()===''){ frag.appendChild(document.createTextNode(part)); }
+        else{ const sp=document.createElement('span'); sp.className='rw'; sp.textContent=part; frag.appendChild(sp); }
+      });
+      tn.parentNode.replaceChild(frag,tn);
+    });
+    sayEl.dataset.prepared='1';
+  }
+  function speakSentence(sayEl, btn){
+    if(!supported){ alert('您的瀏覽器不支援整句朗讀，請改用 Chrome / Edge / Safari。'); return; }
+    if(current && current.btn===btn){ stopAll(); return; }
+    stopAll(); prepare(sayEl);
+    const spans=[...sayEl.querySelectorAll('.rw')];
+    const text=spans.map(s=>s.textContent).join(' ');
+    const bounds=[]; let acc=0;
+    spans.forEach((s)=>{ bounds.push({start:acc,end:acc+s.textContent.length,i:bounds.length}); acc+=s.textContent.length+1; });
+    const u=new SpeechSynthesisUtterance(text);
+    if(voice) u.voice=voice; u.lang='en-US'; u.rate=0.92;
+    let last=-1;
+    u.onboundary=(e)=>{
+      if(e.name && e.name!=='word') return;
+      const ci=e.charIndex;
+      const b=bounds.find(b=>ci>=b.start&&ci<b.end)||bounds.find(b=>ci<=b.start);
+      if(b && b.i!==last){ if(last>=0&&spans[last]) spans[last].classList.remove('spoken'); spans[b.i].classList.add('spoken'); last=b.i; }
+    };
+    u.onend=()=>{ if(current&&current.btn===btn) stopAll(); };
+    u.onerror=()=>{ if(current&&current.btn===btn) stopAll(); };
+    current={btn,spans}; setState(btn,'playing'); speechSynthesis.speak(u);
+  }
+  return { supported, speakWord, speakSentence, stopAll };
+})();
+
+function speakBtn(word){
+  const w = word ? ` data-word="${word.replace(/"/g,'&quot;')}"` : '';
+  return `<button type="button" class="speak-btn"${w} aria-label="朗讀（美式發音）" title="朗讀（美式真人發音）">
+    <svg class="ico-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    <svg class="ico-spin" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9"/></svg>
+    <svg class="ico-stop" style="display:none" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+  </button>`;
+}
+function say(htmlText){
+  return `<span class="say-wrap inline-flex items-start gap-1.5"><span class="say">${htmlText}</span>${speakBtn()}</span>`;
+}
+
+/* ============================================================
+   DATA IS INJECTED BELOW (data.js content appended)
+   ============================================================ */
+</script>
+<script>
+/* ============================================================
+   L2 — PART I : Words for Production  (零刪減)
+   ============================================================ */
+const L2_part1 = [
+ {
+  headword:"innovative", pos:"(adj.) [ˋɪnəˏvetɪv]", meaning:"創新的",
+  example:{
+    en:"Successful inventions often involve people taking an innovative approach to solving a problem.",
+    zh:"成功的發明常常都是因為人們用創新的方法去解決問題。",
+    chunks:["taking an innovative approach to solving a problem","involve"]
+  },
+  collocations:[
+    {en:"take an innovative approach to [doing] something", zh:"採取創新的方法來做某事。特別注意 to 是「介系詞」，後面必須接動名詞 (V-ing)，如此處的 solving a problem。"},
+    {en:"solve a problem", zh:"解決問題。"},
+    {en:"involve doing something", zh:"涉及／需要做某事。動詞 involve 後方常接動名詞 (V-ing) 作受詞。"}
+  ],
+  derived:[
+    {word:"innovate", pos:"(vi.) [ˋɪnəˏvet]", meaning:"創新",
+     exEn:"The smartphone industry continually innovates to win customers' loyalty in the competitive market.",
+     exZh:"智慧型手機產業不斷地創新，以便在競爭的市場中博取顧客的忠誠度。",
+     collo:"continually innovate（不斷地創新）／ win customers' loyalty（博取顧客的忠誠度）／ competitive market（競爭激烈的市場）"},
+    {word:"innovation", pos:"(n. [C]) [ˏɪnəˋveʃən]", meaning:"新方法；創新",
+     exEn:"The Internet is surely one of the most important innovations of the last 100 years.",
+     exZh:"網際網路絕對是近百年來最重要的創新之一。",
+     collo:"one of the most important innovations（最重要的新方法／創新之一。注意「one of + 複數名詞」的用法）／ of the last 100 years（在過去 100 年來）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 記憶法：</strong>字根 <span class="en font-semibold">-nov-</span> 意為「新」（與 new 同源），如 <span class="en">novel</span>（adj. 新奇的; n. 小說）。字尾 <span class="en">-ative</span> 表示形容詞。因此 innovative 就是「充滿新意的、創新的」。<br>自主練習：試著把 <span class="en">"take an innovative approach to..."</span> 應用於你的日常學習，例如：<span class="en">"We should take an innovative approach to learning English."</span></p>`
+ },
+ {
+  headword:"promise", pos:"(vt. / vi. / n. [C]) [ˋprɑmɪs]", meaning:"vt. 可望…、預示…；承諾、保證；n. 承諾",
+  example:{
+    en:"The dark clouds promised rain, so we decided to bring umbrellas before heading out for a walk.",
+    zh:"烏雲密布預示會下雨，所以我們在出門散步時決定帶上雨傘。",
+    chunks:["promised rain","heading out for a walk"]
+  },
+  extraExamples:[
+    {en:"When Ellis borrowed my book, he promised to return it within a week.",
+     zh:"當 Ellis 跟我借書的時候，他答應一週內還我。",
+     chunks:["promised to return it within a week","borrowed my book"]},
+    {en:"The police promised Mrs. Rogers that they would contact her as soon as they found her missing child.",
+     zh:"警方承諾 Rogers 太太一找到她失蹤的小孩就會馬上聯絡她。",
+     chunks:["promised Mrs. Rogers that","contact her","as soon as","found her missing child"]}
+  ],
+  collocations:[
+    {en:"promise rain", zh:"預示會下雨。此時為及物動詞，主詞常為非人稱事物（如天氣），表示「預示可能發生某事」。"},
+    {en:"promise to do something", zh:"答應／承諾做某事。後接不定詞 (to V)。"},
+    {en:"promise someone that + clause", zh:"向某人承諾／保證某事。"},
+    {en:"borrow something from someone", zh:"向某人借某物。"},
+    {en:"return something within a week", zh:"在一週之內歸還某物。within 指在特定時間段以內。"},
+    {en:"contact someone", zh:"與某人聯絡。contact 作動詞時為及物動詞，直接接人，不加介系詞 to 或 with。"},
+    {en:"as soon as", zh:"一……就……。引導時間副詞子句。"},
+    {en:"head out for a walk", zh:"出門散步。head out 意為「動身出發」。"}
+  ],
+  derived:[
+    {word:"promise", pos:"(n. [C]) [ˋprɑmɪs]", meaning:"承諾",
+     exEn:"You made a promise not to tell anyone about my secret and now everyone knows it. How can I ever trust you again?",
+     exZh:"你答應過不會把我的祕密說出去，結果現在人人都知道了。我怎麼能再相信你呢？",
+     collo:"make a promise to do / not to do something（許下承諾做／不做某事）／ tell anyone about something（告訴任何人關於某事）／ trust someone again（再次相信某人）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 注意辨析：</strong>當 promise 表示「承諾」時，是「人」作主詞（<span class="en">I promise you...</span>）；表示「預示、可望…」時，通常是「事物」作主詞（<span class="en">The project promises success</span> 該計畫可望成功）。名詞片語 <span class="en font-semibold">"keep a promise"</span> 意為守信；<span class="en font-semibold">"break a promise"</span> 意為失信。</p>`
+ },
+ {
+  headword:"material", pos:"(n. [C, U]) [məˋtɪrɪəl]", meaning:"（活動所需的）材料；原料",
+  example:{
+    en:"Our art teacher first explained how to make the lanterns, and then handed out some paper, wire, and other materials.",
+    zh:"我們的美術老師先解釋燈籠要怎麼做，接著把一些紙、金屬絲還有其他材料發下來。",
+    chunks:["explained how to make the lanterns","handed out some paper, wire, and other materials"]
+  },
+  collocations:[
+    {en:"explain how to do something", zh:"解釋如何做某事。"},
+    {en:"hand out something", zh:"分發某物。例如 hand out worksheets（發講義）。"},
+    {en:"art teacher / make the lanterns", zh:"美術老師／製作燈籠。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ material：</strong>作不可數名詞時可以指「布料、材料」，作可數名詞時指「（特定的）材料、原料」或「學習／活動教材」（如 <span class="en">teaching materials</span> 教學材料）。</p>`
+ },
+ {
+  headword:"mention", pos:"(vt.) [ˋmɛnʃən]", meaning:"提到",
+  example:{
+    en:"Jacob mentioned the trip plan to his parents, and they liked the idea.",
+    zh:"Jacob 跟爸媽提到了旅遊計畫，他們也很喜歡這點子。",
+    chunks:["mentioned the trip plan to his parents","liked the idea"]
+  },
+  collocations:[
+    {en:"mention something to someone", zh:"向某人提及某事。注意結構是 mention 後直接接提及的事物，再用 to 指向對象。不能寫成 mention to someone something。"},
+    {en:"trip plan", zh:"旅遊計畫。"},
+    {en:"like the idea", zh:"喜歡這個主意／點子。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ 口語常用：</strong><span class="en font-semibold">"Don't mention it!"</span>（不用客氣、別提了），用於回應他人的感謝。在寫作中，可以用 <span class="en font-semibold">"As mentioned above..."</span>（如上所述）來引導複習前文。</p>`
+ },
+ {
+  headword:"structure", pos:"(n. [C]) [ˋstrʌktʃɚ]", meaning:"結構體；建築物；結構",
+  example:{
+    en:"Before the workers completed the new building, tests were conducted to see how well the structure could withstand strong winds.",
+    zh:"在工人們完成這座新建物之前，做了測試來看看這個結構體多能抵擋強風。",
+    chunks:["completed the new building","tests were conducted","how well the structure could withstand strong winds"]
+  },
+  collocations:[
+    {en:"complete the new building", zh:"完成新建建築物。"},
+    {en:"conduct tests", zh:"進行測試／實驗。conduct 是非常正式且常用的學術動詞，常與 research, survey, experiment 搭配。"},
+    {en:"withstand strong winds", zh:"抵擋強風。withstand (vt.) 意為「經受、承受、抵抗」。"},
+    {en:"how well", zh:"多麼地好／耐受程度如何。引導名詞子句作 tests were conducted to see 的賓語。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ structure：</strong>可以指具體的「建築物、結構體」（如例句），也可以指抽象的「結構」（例如 <span class="en">sentence structure</span> 句型結構、<span class="en">organizational structure</span> 組織結構）。</p>`
+ },
+ {
+  headword:"capable", pos:"(adj.) [ˋkepəbḷ]", meaning:"有能力的；能夠……的",
+  example:{
+    en:"After taking lessons for a year, Martha was capable of playing several songs on the guitar.",
+    zh:"上了一年課之後，Martha 已能用吉他彈好幾首曲子。",
+    chunks:["taking lessons for a year","capable of playing several songs on the guitar"]
+  },
+  collocations:[
+    {en:"be capable of [doing] something", zh:"有能力做某事。注意介系詞用 of，後接名詞或動名詞 (V-ing)。這與 be able to + V. 的結構不同，是考試必考重點！"},
+    {en:"take lessons for [a year]", zh:"上課、學習（達一年之久）。"},
+    {en:"play songs on the guitar", zh:"用吉他彈歌。西洋弦樂器前方搭配介系詞 on。"}
+  ],
+  derived:[
+    {word:"capability", pos:"(n. [C]) [ˏkepəˋbɪlətɪ]", meaning:"能力",
+     exEn:"The assignment for the students is beyond their capabilities, so they spent a lot of time doing research for it.",
+     exZh:"這項作業超出這些學生的能力範圍，所以他們花了很多時間為它做研究。",
+     collo:"be beyond one's capabilities（超出某人的能力範圍。beyond 表示「超出……之外」）／ spend time [in] doing something（花時間做某事）／ do research for something（為某事做研究）"}
+  ],
+  distractor:`<p class="zh"><strong>★ capable：</strong>相反詞是 <span class="en font-semibold">incapable</span>（無能力的）。例句中的 <span class="en">"beyond one's capabilities"</span> 非常適合用在作文中，用來表示任務極具挑戰性。</p>`
+ },
+ {
+  headword:"collaborate", pos:"(vi.) [kəˋlæbəˏret]", meaning:"合作",
+  example:{
+    en:"Throughout the years, Louis Vuitton has collaborated with various artists for new collections.",
+    zh:"這些年來，Louis Vuitton（簡稱 LV）與眾多藝術家合作設計新裝系列。",
+    chunks:["Throughout the years","collaborated with various artists","new collections"]
+  },
+  collocations:[
+    {en:"collaborate with someone", zh:"與某人合作。"},
+    {en:"collaborate for something", zh:"為了某事而合作（例如為新裝系列 collaborate for new collections）。"},
+    {en:"throughout the years", zh:"多年來、這些年來。"},
+    {en:"new collections", zh:"（服裝等）新品系列。"}
+  ],
+  derived:[
+    {word:"collaboration", pos:"(n. [C, U]) [kəˏlæbəˋreʃən]", meaning:"合作",
+     exEn:"The new collection for this season is a collaboration between the two famous designers from Italy.",
+     exZh:"這季的新裝系列是兩位義大利知名設計師合作的產物。",
+     collo:"a collaboration between A and B（A 與 B 之間的合作）"},
+    {word:"collaboration", pos:"(n.)", meaning:"密切合作",
+     exEn:"The Chinese kindergarten teacher worked in close collaboration with the English teacher during the language class.",
+     exZh:"幼兒園的華語老師與英語老師在語言課時密切合作。",
+     collo:"work in close collaboration with someone（與某人密切合作。介系詞搭配 in，形容詞 close 表示「密切的」）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 字根記憶法：</strong><span class="en font-semibold">col-</span>（共同）+ <span class="en font-semibold">labor</span>（勞動、工作）+ <span class="en font-semibold">-ate</span>（動詞字尾）。大家一起勞動，就是「合作」！自主寫作句型：<span class="en">"A and B collaborated on the project."</span>（A 和 B 在該專案上共同合作）。</p>`
+ },
+ {
+  headword:"architect", pos:"(n. [C]) [ˋɑrkəˏtɛkt]", meaning:"建築師",
+  example:{
+    en:"The architect promised to design a beautiful building for the corporation's new head office.",
+    zh:"這位建築師承諾要替這間企業新的總部設計一棟美侖美奐的建物。",
+    chunks:["promised to design a beautiful building","corporation's new head office"]
+  },
+  collocations:[
+    {en:"design a building", zh:"設計建築物。"},
+    {en:"corporation's new head office", zh:"企業的新總部首府。head office / headquarters（總部）。"},
+    {en:"promise to do something", zh:"承諾做某事。"}
+  ],
+  derived:[
+    {word:"architecture", pos:"(n. [U]) [ˋɑrkəˏtɛktʃɚ]", meaning:"建築風格；建築學",
+     exEn:"The students were introduced to several ancient Greek and Roman structures in the classical architecture course.",
+     exZh:"古典建築課堂上學生被介紹了數個古希臘與羅馬的建築物。",
+     collo:"be introduced to something（被介紹認識／初步接觸某事物）／ ancient Greek and Roman structures（古希臘與羅馬建築結構體）／ classical architecture course（古典建築課程）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 注意發音：</strong>ch 在 architect 和 architecture 中發 <span class="en">/k/</span> 的音，而非 <span class="en">/tʃ/</span>。延伸含意：architect 在英文中也可以比喻為「締造者、策劃者」，例如 <span class="en font-semibold">"the architect of peace"</span>（和平的締造者）。</p>`
+ },
+ {
+  headword:"graduate", pos:"(n. [C] [ˋgrædʒʊɪt] / vi. [ˋgrædʒʊˏet])", meaning:"n.（大學）畢業生；vi. 畢業",
+  example:{
+    en:"Debbie's new employer is also a graduate of Oxford, so the two shared many fond memories from their college days.",
+    zh:"Debbie 的新老闆也是牛津大學的畢業生，所以他們兩人共享許多大學時代的美好回憶。",
+    chunks:["a graduate of Oxford","shared many fond memories from their college days"]
+  },
+  extraExamples:[
+    {en:"NBA star Jeremy Lin majored in economics and graduated from Harvard in 2010.",
+     zh:"NBA 球星林書豪主修經濟學，2010 年畢業於哈佛大學。",
+     chunks:["majored in economics","graduated from Harvard"]}
+  ],
+  collocations:[
+    {en:"a graduate of [school]", zh:"某校的畢業生。名詞用法，介系詞務必用 of，指「……的畢業生」。"},
+    {en:"graduate from [school]", zh:"從某校畢業。動詞用法，介系詞務必用 from，指「從……畢業」。這兩個介系詞是學測常考的陷阱題！"},
+    {en:"major in [subject]", zh:"主修某學門。介系詞用 in。"},
+    {en:"share fond memories from college days", zh:"共享大學時期的美好回憶。"}
+  ],
+  derived:[
+    {word:"graduation", pos:"(n. [U]) [ˏgrædʒʊˋeʃən]", meaning:"畢業",
+     exEn:"Upon graduation, Sal decided to keep studying and get a master's degree instead of starting to work as an architect right away.",
+     exZh:"Sal 大學一畢業就決定繼續讀書並取得碩士文憑，而非馬上投入職場當建築師。",
+     collo:"upon graduation（一畢業就……。upon = on，在此表示「在……之後立即」，後接名詞）／ get a master's degree（取得碩士學位）／ instead of [doing] something（而不是做某事）／ work as an architect（擔任建築師）／ right away（立刻、馬上）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 注意發音的微小差別：</strong>作名詞時，字尾 -ate 發 <span class="en">[-ɪt]</span>；作動詞時，字尾 -ate 發 <span class="en">[-et]</span>。<span class="en">Upon graduation</span> 可以用來取代 <span class="en">"When he graduated..."</span>，讓寫作更精煉簡潔！</p>`
+ },
+ {
+  headword:"construct", pos:"(vt.) [kənˋstrʌkt]", meaning:"建造",
+  example:{
+    en:"Paris's famous Eiffel Tower was constructed in just over two years using around 18,000 pieces of iron.",
+    zh:"巴黎著名的艾菲爾鐵塔只花了兩年多建造，用了大約 18,000 塊鐵。",
+    chunks:["was constructed in just over two years","using around 18,000 pieces of iron"]
+  },
+  collocations:[
+    {en:"be constructed in [time]", zh:"在……時間內被建造完成。常用被動語態。"},
+    {en:"just over [number]", zh:"剛好超過……。"},
+    {en:"using around 18,000 pieces of iron", zh:"使用大約 18,000 塊鐵。現在分詞片語引導伴隨狀態／工具手段。"}
+  ],
+  derived:[
+    {word:"construction", pos:"(n. [C, U]) [kənˋstrʌkʃən]", meaning:"建築物；建造",
+     exEn:"A building company is putting up a huge construction on the edge of town, but none of the locals know what it will be yet.",
+     exZh:"一間建設公司正在鎮郊蓋一棟很大的建物，但當地人都還不知道那將會是什麼。",
+     collo:"put up a construction（蓋起、搭建一座建築物。put up 在此等於 build）／ on the edge of town（在城鎮邊緣／郊區）／ building company（建設公司）"},
+    {word:"construction", pos:"(n.)", meaning:"建築工地 (construction site)",
+     exEn:"There is a fence surrounding the construction site next to our building.",
+     exZh:"我家大樓隔壁的建築工地有圍籬圍起來。",
+     collo:"construction site（建築工地）／ next to our building（在我們大樓隔壁）"},
+    {word:"constructive", pos:"(adj.) [kənˋstrʌktɪv]", meaning:"有建設性的",
+     exEn:"When you give constructive criticism, you must be sure not to step on people's toes and offend them.",
+     exZh:"當要給別人有建設性的批評時，切記不要傷害別人的感情而得罪對方。",
+     collo:"give constructive criticism（給予有建設性的批評。criticism 作「批評」是不可數名詞）／ be sure not to do something（務必不要做某事）／ step on people's toes（踩到別人的腳趾；引申為「得罪人、干涉他人領域」）／ offend someone（得罪、冒犯某人）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 字根記憶法：</strong><span class="en font-semibold">con-</span>（共同）+ <span class="en font-semibold">struct</span>（建造）= construct（建造）。延伸短語：<span class="en font-semibold">under construction</span>（施工中）。例如：<span class="en">"The subway is under construction."</span>（地鐵正在施工中）。</p>`
+ }
+];
+</script>
+
+<script>
+/* L2 Part I — words 11–20 (append) */
+L2_part1.push(
+ {
+  headword:"slightly", pos:"(adv.) [ˋslaɪtlɪ]", meaning:"稍微",
+  example:{
+    en:"It took Janice slightly longer to find a job than the other graduates, but in the end, it was worth the wait.",
+    zh:"Janice 花比其他畢業生稍長的時間找到工作，但從結果來看，等待是值得的。",
+    chunks:["It took Janice slightly longer to find a job","in the end","worth the wait"]
+  },
+  collocations:[
+    {en:"it takes someone [time] to do something", zh:"花費某人……時間做某事。例如：It took Janice slightly longer to find..."},
+    {en:"slightly longer", zh:"稍微更久。slightly 常用於修飾比較級形容詞或副詞。"},
+    {en:"in the end", zh:"最後、到頭來。"},
+    {en:"be worth the wait", zh:"值得等待。worth 後面接名詞或動名詞。"}
+  ],
+  derived:[
+    {word:"slight", pos:"(adj.) [slaɪt]", meaning:"細微的；微小的",
+     exEn:"There's only a slight difference in pronunciation when it comes to the noun and verb forms of the word \"graduate.\"",
+     exZh:"說到「graduate」一字的名詞和動詞，發音上只有些微的差別。",
+     collo:"a slight difference in something（在某方面的細微差別）／ when it comes to something / doing something（當提到／談到某事時。注意介系詞 to 後方必須接名詞或 V-ing）"}
+  ],
+  distractor:`<p class="zh"><strong>★ slightly：</strong>在寫作中非常好用，可以讓你的語氣更客觀。例如：<span class="en font-semibold">"The results are slightly different from our expectations."</span>（結果與我們的預期稍微有些不同）。</p>`
+ },
+ {
+  headword:"rank", pos:"(vi. / vt.) [ræŋk]", meaning:"排序為……、排名為……",
+  example:{
+    en:"On a list of the world's best universities, schools such as MIT, Stanford, and Cambridge often rank in the top 1%.",
+    zh:"世界最佳大學的名單中，諸如麻省理工學院、史丹佛與劍橋等校排名經常在前百分之一中。",
+    chunks:["a list of the world's best universities","schools such as","rank in the top 1%"]
+  },
+  extraExamples:[
+    {en:"Companies often spend a lot of money trying to have their websites ranked higher on Google searches.",
+     zh:"公司企業常常花大錢想讓它們的網站在 Google 搜尋排行榜上排名更高些。",
+     chunks:["spend a lot of money trying to","have their websites ranked higher","on Google searches"]}
+  ],
+  collocations:[
+    {en:"rank in the top 1%", zh:"排名在前 1%。rank 在此為不及物動詞。"},
+    {en:"a list of the world's best universities", zh:"世界最佳大學名單。"},
+    {en:"schools such as...", zh:"像……這樣的學校。such as 用於舉例。"},
+    {en:"spend money [in] trying to do something", zh:"花錢試圖做某事。"},
+    {en:"have something ranked higher", zh:"使某物排名更高。注意這是一個使役動詞的被動結構：have + O. + V-ed (ranked)，因為網站是被排名的。"},
+    {en:"on Google searches", zh:"在 Google 搜尋上。"}
+  ],
+  derived:[
+    {word:"ranking", pos:"(n. [C]) [ˋræŋkɪŋ]", meaning:"排名",
+     exEn:"Tai Tzu Ying, a Taiwanese professional badminton player, has won several international games and has the top ranking in several categories.",
+     exZh:"戴資穎是臺灣職業羽球女選手，已贏得數個國際賽事，並在好幾個項目中排名第一。",
+     collo:"professional badminton player（職業羽毛球選手）／ win several international games（贏得數個國際比賽）／ have the top ranking in several categories（在好幾個項目中排名第一）"}
+  ],
+  distractor:`<p class="zh"><strong>★ rank：</strong>作不及物動詞時表示「名列（第幾）」，例如：<span class="en font-semibold">"She ranks first in her class."</span>（她在班上名列第一）。作名詞時，可以指軍階、階級，例如 <span class="en">high rank</span>（高階）。</p>`
+ },
+ {
+  headword:"unique", pos:"(adj.) [juˋnik]", meaning:"獨特的",
+  example:{
+    en:"The coconut crab is a unique type of crab that is capable of climbing trees and breaking coconuts open with its claws!",
+    zh:"椰子蟹是一種獨特的螃蟹，可以爬樹，也可以用螯把椰子殼破開！",
+    chunks:["a unique type of crab","capable of climbing trees","breaking coconuts open with its claws"]
+  },
+  collocations:[
+    {en:"a unique type of...", zh:"一種獨特類型的……。"},
+    {en:"be capable of [doing] something", zh:"有能力做某事：capable of climbing... and breaking...。"},
+    {en:"climb trees", zh:"爬樹。"},
+    {en:"break something open", zh:"把某物破開。"},
+    {en:"with its claws", zh:"用牠的蟹螯。with 在此表示「使用工具」。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ 文法小提醒：</strong>unique 本身的意思就是「獨一無二的」，所以在語法上，通常「不」與 very, more, most 等程度副詞連用。說 <span class="en text-rose font-semibold">"very unique"</span> 其實在嚴格的寫作中是不妥的，直接用 <span class="en font-semibold">unique</span> 即可！</p>`
+ },
+ {
+  headword:"adjust", pos:"(vt. / vi.) [əˋdʒʌst]", meaning:"vt. 調整；vi. 適應（常接 to）",
+  example:{
+    en:"This software allows you to adjust the color, brightness, and size of your photos.",
+    zh:"這款軟體讓你可以調整照片的顏色、亮度和大小。",
+    chunks:["allows you to adjust","the color, brightness, and size"]
+  },
+  collocations:[
+    {en:"allow someone to do something", zh:"允許／讓某人做某事。"},
+    {en:"adjust the color, brightness, and size", zh:"調整顏色、亮度和尺寸。"}
+  ],
+  derived:[
+    {word:"adjustment", pos:"(n. [C]) [əˋdʒʌstmənt]", meaning:"調整",
+     exEn:"Although Penny follows a pretty healthy diet already, she still needs to make certain adjustments if she wants to lose weight.",
+     exZh:"雖然 Penny 已經在進行相當健康的飲食，但若要減重，還是得做某些調整。",
+     collo:"follow a healthy diet（遵循健康的飲食。follow a diet 為固定搭配）／ make adjustments（做出調整。動詞搭配 make）／ lose weight（減重、減肥）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 當不及物動詞時：</strong><span class="en font-semibold">"adjust to + N/V-ing"</span> 意為「適應……」。例如：<span class="en">"It took me a month to adjust to college life."</span>（我花了一個月適應大學生活）。</p>`
+ },
+ {
+  headword:"rely", pos:"(vi.) [rɪˋlaɪ]", meaning:"依賴；信任",
+  example:{
+    en:"The small mountain kingdom of Bhutan relies heavily on tourism to keep its domestic economy going.",
+    zh:"不丹是個山中的小王國，很大程度上依賴旅遊業維持國內經濟運作。",
+    chunks:["relies heavily on tourism","keep its domestic economy going"]
+  },
+  collocations:[
+    {en:"rely heavily on/upon something", zh:"極度依賴某事物。rely 必須與介系詞 on/upon 連用。副詞 heavily 表示程度大。"},
+    {en:"keep something going", zh:"維持某物的運作／持續。"},
+    {en:"domestic economy", zh:"國內經濟。"}
+  ],
+  derived:[
+    {word:"reliable", pos:"(adj.) [rɪˋlaɪəbḷ]", meaning:"可信賴的",
+     exEn:"Our apartment building's security guard is completely reliable. He's always on time and never falls asleep on the job.",
+     exZh:"我們住家大樓的保全人員絕對可靠。他總是準時，值勤時絕不會睡著。",
+     collo:"completely reliable（完全可靠的）／ apartment building's security guard（公寓大樓的保全警衛）／ on time（準時）／ fall asleep on the job（在工作／值勤時睡著）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 寫作替換：</strong><span class="en font-semibold">rely on/upon</span> 可以與 <span class="en font-semibold">depend on/upon</span> 替換。這在寫作中非常實用，能避免重複用字。</p>`
+ },
+ {
+  headword:"feedback", pos:"(n. [U]) [ˋfidbæk]", meaning:"回饋意見",
+  example:{
+    en:"After receiving a lot of constructive feedback from customers, the company was able to improve their product a great deal.",
+    zh:"在收到顧客許多建設性的回饋意見後，該公司得以大幅改善其產品。",
+    chunks:["receiving a lot of constructive feedback from customers","improve their product a great deal"]
+  },
+  collocations:[
+    {en:"receive feedback from someone", zh:"收到來自某人的回饋。"},
+    {en:"constructive feedback", zh:"建設性的回饋。"},
+    {en:"improve something a great deal", zh:"大幅度改善某物。a great deal 在此作副詞修飾 improve。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ 核心語法：</strong>feedback 是「不可數名詞」，絕對不能加 -s。如果要表示「一條意見」，可以用 <span class="en font-semibold">"a piece of feedback"</span>。</p>`
+ },
+ {
+  headword:"element", pos:"(n. [C]) [ˋɛləmənt]", meaning:"要素；基本成分",
+  example:{
+    en:"Maintaining the right temperature at all times is a key element in food transportation.",
+    zh:"食物運輸的一項關鍵要素便是隨時維持正確的溫度。",
+    chunks:["Maintaining the right temperature","at all times","a key element in food transportation"]
+  },
+  collocations:[
+    {en:"maintain the right temperature", zh:"維持正確的溫度。"},
+    {en:"at all times", zh:"隨時、總是。相當於 always。"},
+    {en:"a key element in something", zh:"在某方面的關鍵要素。介系詞搭配 in。"},
+    {en:"food transportation", zh:"食品運輸。"}
+  ],
+  derived:[
+    {word:"elementary", pos:"(adj.) [ˏɛləˋmɛntərɪ]", meaning:"初級的；基礎的",
+     exEn:"In the first two hours of the chef course, students will learn some of the elementary principles of cooking and baking.",
+     exZh:"廚藝課的前兩個小時，學生將會學到烹飪與烘焙的一些基本原則。",
+     collo:"elementary principles of...（……的基本原則）／ chef course / cooking and baking（廚師課程／烹飪與烘焙）"}
+  ],
+  distractor:`<p class="zh"><strong>★ element：</strong><span class="en font-semibold">elementary school</span> 是我們熟知的「國民小學」（基礎學校）。<span class="en font-semibold">key element</span>（關鍵要素）在學術寫作與簡報中是超高頻搭配詞！</p>`
+ },
+ {
+  headword:"stability", pos:"(n. [U]) [stəˋbɪlətɪ]", meaning:"穩定；穩定性",
+  example:{
+    en:"Water rushed into the hole at the front of the ship and soon the stability of the whole ship was in danger.",
+    zh:"水衝入船隻前方的洞中，不久整艘船的穩定岌岌可危。",
+    chunks:["rushed into the hole","at the front of the ship","the stability of the whole ship","was in danger"]
+  },
+  collocations:[
+    {en:"rush into...", zh:"衝入……。"},
+    {en:"at the front of the ship", zh:"在船的前部。"},
+    {en:"the stability of the whole ship", zh:"整艘船的穩定性。"},
+    {en:"be in danger", zh:"處於危險之中／岌岌可危。"}
+  ],
+  derived:[
+    {word:"stable", pos:"(adj.) [ˋstebḷ]", meaning:"穩定的；穩固的",
+     exEn:"The country's economy is fairly stable at the moment, so we can expect slow but steady growth in the next few years.",
+     exZh:"這個國家的經濟目前頗為穩定，所以我們可以預期未來幾年會有緩慢但穩定的經濟成長。",
+     collo:"fairly stable（相當穩定）／ at the moment（目前、現在）／ expect slow but steady growth（期待緩慢但穩定的增長）"}
+  ],
+  distractor:`<p class="zh"><strong>★ stability：</strong>搭配的動詞常用 <span class="en font-semibold">maintain</span>（維護穩定）或 <span class="en font-semibold">threaten</span>（威脅穩定）。<span class="en">in danger</span> 的反義詞是 <span class="en font-semibold">out of danger</span>（脫離險境）。</p>`
+ },
+ {
+  headword:"route", pos:"(n. [C]) [rut; raʊt]", meaning:"路線；途徑",
+  example:{
+    en:"Since the main road to the beach was under construction, the family had to take a different route.",
+    zh:"由於通往海灘的主要道路施工中，這家人必須走一條不同的路線。",
+    chunks:["main road to the beach","under construction","take a different route"]
+  },
+  collocations:[
+    {en:"main road to the beach", zh:"通往海灘的主要道路。"},
+    {en:"under construction", zh:"施工中、建造中。"},
+    {en:"take a different route", zh:"走不同的路線／採取不同的途徑。動詞用 take。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ 注意發音：</strong>這個單字有兩種常見的正確讀音，可以讀作 <span class="en">/rut/</span>（如 root）或者是 <span class="en">/raʊt/</span>（如 out）。兩者皆可！比喻用法：<span class="en font-semibold">route to success</span>（成功之路）。例如：<span class="en">"Hard work is the safest route to success."</span></p>`
+ },
+ {
+  headword:"explore", pos:"(vt.) [ɪkˋsplor]", meaning:"探索；探究",
+  example:{
+    en:"Reports suggest that there might be alien life on Mars, so scientists will need to further explore the planet.",
+    zh:"報導指出火星上可能有外星生物，所以科學家得進一步探索此行星。",
+    chunks:["Reports suggest that","alien life","further explore the planet"]
+  },
+  collocations:[
+    {en:"reports suggest that + clause", zh:"報導指出／暗示……。這是學術寫作中的萬用報告引導句！"},
+    {en:"alien life", zh:"外星生命／生物。"},
+    {en:"further explore the planet", zh:"進一步探索這顆行星。further 作副詞，修飾 explore，意為「更進一步地」。"}
+  ],
+  derived:[
+    {word:"exploration", pos:"(n. [U]) [ˏɛkspləˋreʃən]", meaning:"探索；探究",
+     exEn:"More detailed exploration of the ocean floor will likely reveal previously unknown plants and sea creatures.",
+     exZh:"對海洋底部更詳盡的探索，將可能發現前所未知的植物與海洋生物。",
+     collo:"detailed exploration of the ocean floor（對海底的詳細探索）／ reveal previously unknown plants and sea creatures（揭露先前未知的植物和海洋生物）"}
+  ],
+  distractor:`<p class="zh"><strong>★ 寫作技巧：</strong>在自學報告或小論文中，如果你想表達「探討一個主題」，可以使用 <span class="en font-semibold">"explore the topic"</span>，這比單純用 <span class="en">"study"</span> 聽起來更專業、更有探究精神。</p>`
+ }
+);
+</script>
+
+<script>
+/* ============================================================
+   L2 — PART II : Idioms & Phrases
+   ============================================================ */
+const L2_part2 = [
+ {
+  headword:"trial and error", pos:"", meaning:"反覆試驗；嘗試錯誤法",
+  example:{
+    en:"The members of the research team weren't sure which elements to include in their design, so they relied on trial and error to see what worked best.",
+    zh:"這個研究小組的成員不確定他們的設計該包含什麼元素，所以他們依靠反覆試驗來看看什麼效果最好。",
+    chunks:["relied on trial and error","which elements to include in their design","see what worked best"]
+  },
+  collocations:[
+    {en:"rely on trial and error", zh:"依靠／依賴反覆試驗。"},
+    {en:"be sure which elements to include in their design", zh:"確定他們的設計該包含什麼元素。注意 which elements 引導賓語子句，後接不定詞 (to include)。"},
+    {en:"see what worked best", zh:"看看什麼效果最好。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ trial and error：</strong>這個片語由兩個名詞組成，<span class="en font-semibold">trial</span> 是「試驗、審判」，<span class="en font-semibold">error</span> 是「錯誤」。在句中多作不可數名詞片語使用，前方常搭配動詞 <span class="en">rely on, learn by, find out by</span> 等。</p>`
+ },
+ {
+  headword:"in charge", pos:"", meaning:"主控；負責",
+  example:{
+    en:"Helen's in charge because she has the most experience and is therefore likely to lead the team successfully.",
+    zh:"Helen 是負責人，因為她最有經驗，因此也可能成功地領導團隊。",
+    chunks:["in charge","has the most experience","lead the team successfully"]
+  },
+  collocations:[
+    {en:"be in charge", zh:"負責、掌管。"},
+    {en:"have the most experience", zh:"最具有經驗。"},
+    {en:"be likely to do something", zh:"有可能做某事。"},
+    {en:"lead the team successfully", zh:"成功地領導團隊。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ in charge：</strong>表示負責某事或某部門時，常用片語 <span class="en font-semibold">"be in charge of + N/V-ing"</span>。例如：<span class="en">"Who is in charge of this project?"</span>（誰負責這個專案？）。</p>`
+ },
+ {
+  headword:"figure out", pos:"", meaning:"想出；弄清楚；解決",
+  example:{
+    en:"Rather than copy other people, why not figure out a unique exercise and diet plan that works for you?",
+    zh:"與其都只跟著別人做，何不想出一個對你有效的獨特運動與飲食計畫？",
+    chunks:["Rather than copy other people","figure out a unique exercise and diet plan","works for you"]
+  },
+  collocations:[
+    {en:"rather than [do] something", zh:"與其做某事、而不是做某事。後接原形動詞（在此為 copy）。"},
+    {en:"figure out a unique plan", zh:"想出一個獨特的計畫。"},
+    {en:"why not [do] something?", zh:"何不做某事？後接原形動詞。"},
+    {en:"a plan that works for you", zh:"對你行之有效／適合你的計畫。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ figure out：</strong>是可拆分片語。如果受詞是代名詞，必須放在中間：<span class="en font-semibold">"figure it out"</span>（把它弄清楚）。</p>`
+ },
+ {
+  headword:"roll up one's sleeves", pos:"", meaning:"挽起袖子（表示準備開始努力行動）",
+  example:{
+    en:"We've had enough positive feedback from everyone. Now it's time to roll up our sleeves and get to work!",
+    zh:"我們已經收到所有人足夠的正面回饋了，現在該挽起袖子開始幹活了！",
+    chunks:["had enough positive feedback from everyone","roll up our sleeves and get to work"]
+  },
+  collocations:[
+    {en:"have positive feedback from someone", zh:"收到來自某人的正面回饋。"},
+    {en:"it's time to do something", zh:"是時候做某事了。"},
+    {en:"roll up one's sleeves and get to work", zh:"挽起袖子並開始工作／幹活。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ roll up one's sleeves：</strong>這是一個非常形象生動的習慣用語！當人們要把手伸進髒污或繁重的工作時，第一步就是「挽起袖子」。現在廣泛用於任何「準備擼起袖子大幹一場」的情況。</p>`
+ },
+ {
+  headword:"get down to...", pos:"", meaning:"開始認真做某事；著手進行",
+  example:{
+    en:"The boss wants that report done by Monday morning, so you'd better stop wasting time and get down to it.",
+    zh:"老闆希望那篇報告星期一早上前完成，所以你最好停止浪費時間，開始處理吧。",
+    chunks:["wants that report done","by Monday morning","stop wasting time","get down to it"]
+  },
+  collocations:[
+    {en:"want something done", zh:"希望某事被完成。注意這是一個使役動詞的被動結構 (want + O + V-ed)。"},
+    {en:"by Monday morning", zh:"在星期一早上之前。by 表示「不遲於、在……之前」。"},
+    {en:"had better do something", zh:"最好做某事。後面接原形動詞 (had better stop)。"},
+    {en:"stop wasting time", zh:"停止浪費時間。stop 之後接 V-ing。"},
+    {en:"get down to it", zh:"著手進行它／開始認真做它。注意 get down to 的 to 是「介系詞」，後面一定要接名詞、代名詞或動名詞！"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ get down to...：</strong>當你想跟同學說「我們別聊了，開始讀書吧！」你可以說：<span class="en font-semibold">"Let's stop chatting and get down to studying!"</span></p>`
+ }
+];
+
+/* ============================================================
+   L2 — PART III : Words for Recognition
+   ============================================================ */
+const L2_part3 = [
+ {
+  headword:"marshmallow", pos:"(n. [C, U])", meaning:"棉花糖",
+  example:{
+    en:"In the famous Marshmallow Challenge, a marshmallow must be placed on top of the structure.",
+    zh:"一種質地柔軟的甜食，在著名的「棉花糖挑戰」(Marshmallow Challenge) 中作為必須放在結構體頂端的關鍵道具。",
+    chunks:["famous Marshmallow Challenge","placed on top of the structure"]
+  },
+  collocations:[],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"Tom Wujec", pos:"(n.)", meaning:"湯姆・伍傑克",
+  example:{
+    en:"Tom Wujec is a workshop researcher from Autodesk in Canada who helps teams solve complex problems through collaboration.",
+    zh:"一位來自加拿大 Autodesk 公司的工作坊研究員。他協助企業進行商業視覺化、圖像藝術使用，並專門幫助團隊透過合作來解決複雜的問題。",
+    chunks:["workshop researcher from Autodesk","solve complex problems through collaboration"]
+  },
+  collocations:[],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"CEO", pos:"(n. [C])", meaning:"執行長",
+  example:{
+    en:"A CEO (Chief Executive Officer) is the top decision-maker of a company.",
+    zh:"Chief Executive Officer 的縮寫，代表一家公司的最高決策主管。在課文中與「幼兒園生」形成對比，顯示出高階經理人在合作挑戰中可能因過度規劃而落後。",
+    chunks:["Chief Executive Officer","top decision-maker of a company"]
+  },
+  collocations:[],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"kindergartener", pos:"(n. [C])", meaning:"幼稚園生",
+  example:{
+    en:"In the marshmallow challenge, kindergarteners often use trial and error and unexpectedly outperform many adult teams.",
+    zh:"幼兒園的孩子。在棉花糖挑戰中，因為採取「反覆試驗 (trial and error)」且注重棉花糖的本體，表現出乎意料地勝過許多成人組。",
+    chunks:["use trial and error","unexpectedly outperform many adult teams"]
+  },
+  collocations:[],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"outperform", pos:"(vt.)", meaning:"勝過；表現優於",
+  example:{
+    en:"In the story, the kindergarteners outperform the business school graduates and the CEOs.",
+    zh:"結合了 out-（勝過）與 perform（表現）。在課文中指幼稚園生的表現勝過 (outperform) 了商學院畢業生與 CEO 們。",
+    chunks:["outperform the business school graduates and the CEOs"]
+  },
+  collocations:[],
+  derived:[],
+  distractor:`<p class="zh"><strong>★ 構詞：</strong><span class="en font-semibold">out-</span>（勝過）＋ <span class="en font-semibold">perform</span>（表現）＝ outperform。同類詞：<span class="en">outnumber</span>（數量勝過）、<span class="en">outrun</span>（跑贏）。</p>`
+ }
+];
+
+/* ============================================================
+   L2 — PART IV : Sentence Patterns
+   ============================================================ */
+const L2_patterns = [
+ {
+  title:"Sentence Pattern 4.1",
+  formula:"not... until... ｜直到……才……",
+  focus:`這個句型表達「直到……才……」。在 until 後面的「時間或事件」發生之前，主句的動作是「沒有發生」的；只有當 until 後面的條件滿足了，主句的動作「才開始發生」。`,
+  form:"S + do/does/did + not + V + until + [時間點／事件／子句]",
+  examples:[
+    "I did not get home until midnight.（我直到半夜才到家。）",
+    "Sam did not get dressed until his mother asked him to.（Sam 直到他媽媽叫他穿衣服，他才穿上。）",
+    "Adults usually don't start putting the structure together until they have spent most of the time planning.（大人通常要花去大部分時間進行規劃之後，才會開始組裝結構。）"
+  ],
+  tip:`<strong>避坑秘訣與倒裝轉換：</strong>很多同學會直接把「直到……才……」翻成 <span class="en text-rose">"I got home until midnight."</span>（這是大錯特錯的！）。因為 until 表示狀態的持續，get home 是一個瞬間動作，不可能持續到半夜，必須用 <span class="en font-semibold">not... until</span>。<br>轉換秘訣：改成倒裝句時，用 <span class="en font-semibold">"Not until..."</span> 開頭，此時主句要「倒裝」！例如：<span class="en font-semibold">Not until midnight did I get home.</span>`
+ },
+ {
+  title:"Sentence Pattern 4.2",
+  formula:"比較結構中的代名詞替代：that 與 those",
+  focus:`為了避免重複提到前面已經出現過的名詞，在進行「兩者比較」時：① 用 that 替代前面出現過的「單數」或「不可數」名詞；② 用 those 替代前面出現過的「複數」名詞。`,
+  form:"A（單數/不可數）+ be/V + ... than + that of B ｜ A（複數）+ be/V + ... than + those of B",
+  examples:[
+    "The population of Taipei is much larger than that of Hualien.（that 替代單數名詞 the population。）",
+    "The apartments downtown are more expensive than those in the suburbs.（those 替代複數名詞 the apartments。）",
+    "The climate in this area is very similar to that in the south of England.（that 替代不可數名詞 the climate。）",
+    "Mr. Frizzle's children are well-behaved, whereas those of his sister are naughty.（those 替代複數名詞 the children。）",
+    "In Iceland, the salary of men is the same as that of women doing the same job.（that 替代單數名詞 the salary。）",
+    "This company has always made its products more appealing than those of its competitors.（those 替代複數名詞 its products。）",
+    "The impressive performance of the kindergarten group, whose structures were taller than those of most adult teams, can be explained by several reasons...（those 替代複數名詞 structures。）"
+  ],
+  tip:`<strong>比較對象一致性原則 (Parallel Comparison)：</strong>寫作時，請務必確認比較的兩者是同性質的東西！<br>錯誤示範：<span class="en text-rose">The climate of Taipei is better than Tainan.</span>（台北的氣候不能和台南這個「城市」比！必須和台南的「氣候」比）。<br>正確寫法：<span class="en font-semibold">The climate of Taipei is better than that of Tainan.</span>（用 that 替代 the climate，對稱又完美！）`
+ }
+];
+</script>
+
+<script>
+/* ============================================================
+   R1 — PART I : Words for Production (words 1–10)
+   ============================================================ */
+const R1_part1 = [
+ {
+  headword:"artificial", pos:"(adj.) [ˏɑrtəˋfɪʃəl]", meaning:"人造的；人工的",
+  example:{
+    en:"In the future, computers or robots with artificial intelligence will play an even greater role in our lives.",
+    zh:"未來具有人工智慧的電腦或機器人在我們的生活中將扮演一個更重要得多的角色。",
+    chunks:["artificial intelligence","play an even greater role in our lives"]
+  },
+  collocations:[
+    {en:"artificial intelligence", zh:"人工智慧（常縮寫為 AI）"},
+    {en:"artificial flowers / lake", zh:"人造花／人工湖"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"coral reef", pos:"(n. [C]) [ˏkɔrəl ˋrif]", meaning:"珊瑚礁",
+  example:{
+    en:"Clownfish live inside sea anemones, which are plant-like animals that live in coral reefs.",
+    zh:"小丑魚住在海葵裡，海葵是像植物的動物，住在珊瑚礁裡。",
+    chunks:["live inside sea anemones","plant-like animals","live in coral reefs"]
+  },
+  collocations:[
+    {en:"coral reef conservation", zh:"珊瑚礁保育"},
+    {en:"marine life in coral reefs", zh:"珊瑚礁中的海洋生物"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"ridiculous", pos:"(adj.) [rɪˋdɪkjələs]", meaning:"荒唐的；可笑的",
+  example:{
+    en:"It is ridiculous that the company expects its employees to work longer hours for less money.",
+    zh:"這間公司期待員工工時延長但薪水減少實在是太荒唐了。",
+    chunks:["It is ridiculous that","expects its employees to work longer hours for less money"]
+  },
+  collocations:[
+    {en:"It is ridiculous that + S + V...", zh:"……實在是太荒唐（It 為虛主詞，that 引導真主詞子句）"},
+    {en:"look / sound ridiculous", zh:"看起來／聽起來很荒唐"}
+  ],
+  derived:[
+    {word:"absurd", pos:"(adj.)", meaning:"荒謬的；荒唐的（同義字）",
+     exEn:"",
+     exZh:"",
+     collo:"absurd 為 ridiculous 的同義字。"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"layer", pos:"(n. [C]) [ˋleɚ]", meaning:"層；表層",
+  example:{
+    en:"Ellen noticed a thin layer of dust on the piano and guessed that nobody had played it for some time.",
+    zh:"Ellen 注意到鋼琴上的薄薄一層灰塵，猜測一段時間沒人彈奏它了。",
+    chunks:["a thin layer of dust","guessed that","for some time"]
+  },
+  collocations:[
+    {en:"a layer of sth.", zh:"一層某物"},
+    {en:"ozone layer", zh:"臭氧層"},
+    {en:"multi-layered", zh:"多層的；複雜的"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"electronic", pos:"(adj.) [ɪˏlɛkˋtrɑnɪk]", meaning:"（尤指設備）電子的；電腦化的",
+  example:{
+    en:"Just before take-off, the pilot reminded her passengers to turn off all smartphones, laptops, and other electronic devices.",
+    zh:"就在起飛之前，機長提醒她的乘客們關掉所有的智慧型手機、筆記型電腦以及其他電子裝置。",
+    chunks:["Just before take-off","reminded her passengers to turn off","other electronic devices"]
+  },
+  extraExamples:[
+    {en:"You can simply buy and download the electronic book from the website rather than visit the library to get a copy of the novel.",
+     zh:"你可以輕鬆地從網站購買及下載電子書，而不用造訪圖書館取得這本小說。",
+     chunks:["buy and download the electronic book","rather than visit the library","get a copy of the novel"]}
+  ],
+  collocations:[
+    {en:"electronic device", zh:"電子設備"},
+    {en:"electronic book / e-book", zh:"電子書"},
+    {en:"electronic mail", zh:"電子郵件 (= email)"}
+  ],
+  derived:[
+    {word:"electric", pos:"(adj.)", meaning:"電（動）的；用電的；發電的",
+     exEn:"Electric cars are becoming more popular as we try to protect our planet.",
+     exZh:"隨著我們努力保護地球，電動車正變得越來越流行。",
+     collo:"electric cars（電動車）"},
+    {word:"electricity", pos:"(n. [U])", meaning:"電；電能",
+     exEn:"This wind farm can generate enough electricity for seven thousand people every month.",
+     exZh:"這個風力發電廠每個月能產生足夠電力供七千個人使用。",
+     collo:"generate electricity（發電）／ save / waste electricity（省電／浪費電）"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"equip", pos:"(vt.) [ɪˋkwɪp]", meaning:"配備；使具備能力",
+  example:{
+    en:"All the soldiers in the army were equipped with helmets, uniforms, and boots for the war.",
+    zh:"這支軍隊所有的士兵皆配備戰用的頭盔、制服和靴子。",
+    chunks:["were equipped with helmets, uniforms, and boots"]
+  },
+  collocations:[
+    {en:"be equipped with + N", zh:"配備……；裝備有……（極重要被動用法！）"},
+    {en:"equip A with B", zh:"裝備／提供 A 與 B"},
+    {en:"equip sb. to + VR", zh:"使某人具備能力做某事"}
+  ],
+  derived:[
+    {word:"equipment", pos:"(n. [U])", meaning:"設備；器材（注意：此字為不可數名詞！）",
+     exEn:"In this dive center, one can rent underwater equipment needed for diving, such as diving tanks, wetsuits, and masks.",
+     exZh:"在這個潛水中心可以租借到潛水所需的水底設備，例如氧氣瓶、潛水衣以及面罩。",
+     collo:"underwater / sports equipment（水底／運動設備）"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"flex", pos:"(vt.) [flɛks]", meaning:"活動（四肢或肌肉）；彎曲",
+  example:{
+    en:"David flexed his muscles at the poolside as a warm-up before swimming.",
+    zh:"David 在泳池畔活動他的肌肉作為游泳前的熱身。",
+    chunks:["flexed his muscles","as a warm-up before swimming"]
+  },
+  collocations:[
+    {en:"flex one's muscles", zh:"(1) 活動某人的肌肉 (2) 展現某人的實力（以炫耀、威脅）"}
+  ],
+  derived:[
+    {word:"flexible", pos:"(adj.)", meaning:"可彎曲的；有彈性的；靈活的；可變通的",
+     exEn:"This plastic ruler is more flexible than a wooden one and won't break so easily when you bend it.",
+     exZh:"這把塑膠尺比木製尺有彈性，當你折它時，它不會那麼容易斷掉。",
+     collo:"flexible working hours（彈性工時）／ flexible schedule（靈活的行程表）"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"relatively", pos:"(adv.) [ˋrɛlətɪvlɪ]", meaning:"相對地；比較上",
+  example:{
+    en:"Winters in Taiwan are usually not very cold and relatively mild, compared to those in Northern Europe.",
+    zh:"比起北歐的冬天，臺灣的冬天通常不會太冷且相對地溫和。",
+    chunks:["relatively mild","compared to those in Northern Europe"]
+  },
+  collocations:[
+    {en:"relatively speaking", zh:"相對來說"},
+    {en:"relatively + adj. / adv.", zh:"相對較……的"}
+  ],
+  derived:[
+    {word:"relative", pos:"(adj.)", meaning:"相比較而言的；相對的",
+     exEn:"Since Thelma has conducted similar research before, she is able to finish this project with relative ease.",
+     exZh:"因為 Thelma 以前做過類似的研究，她能夠比較輕鬆地完成這個計畫。",
+     collo:"with relative ease（比較輕鬆地）"},
+    {word:"relative", pos:"(n. [C])", meaning:"親戚；親屬",
+     exEn:"All the family came to my wedding, including some distant relatives that I hardly recognized.",
+     exZh:"所有的家人都來到我的婚禮，包含一些我幾乎不認得的遠房親戚。",
+     collo:"distant relative（遠房親戚）"}
+  ],
+  distractor:`<p class="zh"><strong>🔎 comparison substitution：</strong>例句末的 <span class="en font-semibold">those</span> 替代前面的複數名詞 <span class="en">winters</span>，正好呼應 L2 句型 4.2 的比較代名詞用法。</p>`
+ },
+ {
+  headword:"temperature", pos:"(n. [C, U]) [ˋtɛmprətʃɚ]", meaning:"溫度；體溫",
+  example:{
+    en:"Unusually high temperatures in this region in the past three months have caused the snow in the mountains to melt.",
+    zh:"這個地區過去三個月不尋常的高溫已導致山區的雪融化。",
+    chunks:["Unusually high temperatures","have caused the snow in the mountains to melt"]
+  },
+  collocations:[
+    {en:"high / low temperatures", zh:"高溫／低溫"},
+    {en:"take one's temperature", zh:"測量體溫"},
+    {en:"have a temperature", zh:"發燒（英式用法，等同於 have a fever）"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"precious", pos:"(adj.) [ˋprɛʃəs]", meaning:"珍貴的；貴重的",
+  example:{
+    en:"Water and electricity are both precious resources that should be used wisely and never wasted.",
+    zh:"水和電都是珍貴的資源，應該被明智地使用且絕不浪費。",
+    chunks:["precious resources","used wisely and never wasted"]
+  },
+  collocations:[
+    {en:"precious resource", zh:"珍貴的資源"},
+    {en:"precious memory", zh:"珍貴的回憶"},
+    {en:"precious stone / metal", zh:"寶石／貴金屬"}
+  ],
+  derived:[],
+  distractor:null
+ }
+];
+</script>
+
+<script>
+/* R1 Part I — words 11–18 (append) */
+R1_part1.push(
+ {
+  headword:"balance", pos:"(n. [U] / vt.) [ˋbæləns]", meaning:"平衡；同等重視",
+  example:{
+    en:"People are usually under less stress when their work, personal relationships, and free time are all in balance.",
+    zh:"當工作、人際關係與空閒時間皆達平衡時，人們通常壓力較小。",
+    chunks:["under less stress","are all in balance"]
+  },
+  extraExamples:[
+    {en:"Strike a healthy balance between study and relaxation, or you'll soon be exhausted.",
+     zh:"在學業和休閒之間取得健康的平衡吧，否則你將很快就會筋疲力盡。",
+     chunks:["Strike a healthy balance between study and relaxation"]},
+    {en:"The first time Donna got on a bicycle, she immediately lost her balance and fell to the ground.",
+     zh:"Donna 第一次騎上腳踏車時，她立即失去平衡而跌落在地。",
+     chunks:["lost her balance","fell to the ground"]},
+    {en:"Good soccer teams need to balance attack and defense; it's not just about trying to score goals.",
+     zh:"好的足球隊需要同等重視攻擊和防守；不只是試圖得分就好。",
+     chunks:["balance attack and defense","trying to score goals"]}
+  ],
+  collocations:[
+    {en:"be in balance", zh:"達到平衡／處於平衡狀態"},
+    {en:"strike a balance (between A and B)", zh:"（在 A 與 B 之間）取得平衡（超重要寫作高分用法！）"},
+    {en:"lose one's balance", zh:"失去平衡"},
+    {en:"keep one's balance", zh:"保持平衡"},
+    {en:"balance A and B", zh:"同等重視／均衡發展 A 與 B（動詞及物用法）"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"protect", pos:"(vt.) [prəˋtɛkt]", meaning:"保護",
+  example:{
+    en:"The old woman put a plastic sheet over her plants to protect them from the heavy rain.",
+    zh:"這位老婦人放了一張塑膠墊子在她的植物上方，以保護植物們不因大雨受損。",
+    chunks:["put a plastic sheet over her plants","protect them from the heavy rain"]
+  },
+  collocations:[
+    {en:"protect A from B", zh:"保護 A 免受 B 之傷害（極重要動詞結構！介係詞必用 from）"},
+    {en:"protect the environment", zh:"保護環境"}
+  ],
+  derived:[
+    {word:"protection", pos:"(n. [U])", meaning:"保護；保障",
+     exEn:"The little empty house on the mountain provided protection for the hikers when there was a storm.",
+     exZh:"山上的這間小小的空屋子，在有暴風雨時提供登山客保護。",
+     collo:"environmental protection（環境保護）／ provide protection for sb.（為某人提供保護）"},
+    {word:"protective", pos:"(adj.)", meaning:"保護的；防護的",
+     exEn:"Workers in the factory have to wear protective masks in order to avoid breathing in any poisonous gases.",
+     exZh:"在這家工廠的工人必須戴保護性的口罩，以避免吸入任何有毒的氣體。",
+     collo:"protective masks / gear（防護口罩／防護裝備）／ be overprotective of...（對……過度保護的）"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"habitat", pos:"(n. [C]) [ˋhæbəˏtæt]", meaning:"棲息地",
+  example:{
+    en:"Since many species of birds live in the forest, cutting down trees in this area will destroy their natural habitat.",
+    zh:"因為有許多種類的鳥居住這個森林裡，砍伐這個區域裡的樹將會破壞牠們的自然棲息地。",
+    chunks:["many species of birds","cutting down trees in this area","destroy their natural habitat"]
+  },
+  collocations:[
+    {en:"natural habitat", zh:"自然棲息地"},
+    {en:"habitat destruction", zh:"棲息地破壞"}
+  ],
+  derived:[
+    {word:"habitable", pos:"(adj.)", meaning:"適合居住的；可居住的",
+     exEn:"",
+     exZh:"",
+     collo:"habitable 為 habitat 的形容詞衍生字。"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"texture", pos:"(n. [U, C]) [ˋtɛkstʃɚ]", meaning:"質地；結構；觸感",
+  example:{
+    en:"High-quality silk scarves are normally very soft and smooth in texture.",
+    zh:"高品質的絲質圍巾質地通常很柔軟平滑。",
+    chunks:["very soft and smooth in texture"]
+  },
+  collocations:[
+    {en:"be soft / smooth in texture", zh:"質地柔軟／平滑（in texture 作為副詞用法）"},
+    {en:"rough / fine texture", zh:"粗糙／細緻的質地"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"erect", pos:"(vt.) [ɪˋrɛkt]", meaning:"建造；豎立",
+  example:{
+    en:"A large fake wooden castle was erected at the back of the stage for the play.",
+    zh:"為了這齣戲，舞臺後方建造了一個巨大的木造假城堡。",
+    chunks:["A large fake wooden castle was erected","at the back of the stage"]
+  },
+  collocations:[
+    {en:"sth. be erected at + 地點", zh:"在某處建造／豎立某物（常用被動語態）"},
+    {en:"erect a statue / tent", zh:"豎立雕像／搭起帳篷"}
+  ],
+  derived:[
+    {word:"erection", pos:"(n. [U])", meaning:"建造；立起",
+     exEn:"", exZh:"", collo:"erect 的名詞衍生字。"},
+    {word:"construct", pos:"(vt.)", meaning:"建造；構建（同義字）",
+     exEn:"", exZh:"", collo:"construct 為 erect 的同義字，皆表「建造」。"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"reduce", pos:"(vt.) [rɪˋdjus]", meaning:"減少；降低",
+  example:{
+    en:"Oil prices have been dramatically reduced by 15% over the past three months.",
+    zh:"在過去三個月期間油價已急遽地減少了百分之十五。",
+    chunks:["dramatically reduced by 15%","over the past three months"]
+  },
+  collocations:[
+    {en:"be reduced by + 百分比", zh:"減少了百分之多少"},
+    {en:"reduce stress / speed", zh:"減輕壓力／減低速度"},
+    {en:"reduce A to B", zh:"將 A 降低到 B"}
+  ],
+  derived:[
+    {word:"reduction", pos:"(n. [C, U])", meaning:"減少；降低；折扣",
+     exEn:"A reduction in the price of tickets should hopefully encourage more fans to attend the concert.",
+     exZh:"票價降低可望能鼓勵更多歌迷參加這場演唱會。",
+     collo:"reduction in sth.（在某事物上的減少／降低）／ price reduction（降價／打折）"}
+  ],
+  distractor:null
+ },
+ {
+  headword:"assemble", pos:"(vt. / vi.) [əˋsɛmbḷ]", meaning:"組裝；集合",
+  example:{
+    en:"The bookcase is easy to assemble if you follow the instructions on the box.",
+    zh:"如果你依照盒上的說明，這書架是容易組裝的。",
+    chunks:["easy to assemble","follow the instructions on the box"]
+  },
+  collocations:[
+    {en:"be easy / difficult to assemble", zh:"容易／困難組裝"},
+    {en:"assemble a team / components", zh:"組成團隊／組裝零件"},
+    {en:"assemble in the hallway", zh:"在走廊集合（不及物用法）"}
+  ],
+  derived:[],
+  distractor:null
+ },
+ {
+  headword:"individual", pos:"(adj. / n. [C]) [ˏɪndɪˋvɪdʒʊəl]", meaning:"個別的；個人",
+  example:{
+    en:"Each individual member of this club will be given a T-shirt with his or her name on it for free.",
+    zh:"這社團的每一位成員將會免費獲得一件上面印有其名字的 T 恤。",
+    chunks:["Each individual member","with his or her name on it for free"]
+  },
+  extraExamples:[
+    {en:"The competition is open to both teams and individuals, so you can take part in it either with your friends or just by yourself.",
+     zh:"這競賽對團體及個人開放，所以你可以和朋友組隊參加或自己參加。",
+     chunks:["open to both teams and individuals","take part in it","with your friends or just by yourself"]}
+  ],
+  collocations:[
+    {en:"each individual + 單數名詞", zh:"每個個別的……"},
+    {en:"respect individual differences", zh:"尊重個人差異"},
+    {en:"as an individual", zh:"作為一個個人"}
+  ],
+  derived:[
+    {word:"individuality", pos:"(n. [U])", meaning:"個性；特質",
+     exEn:"The school uniform makes everyone look the same, suppressing their individuality.",
+     exZh:"學校制服讓每個人看起來都一樣，壓抑了他們的個性。",
+     collo:"suppress one's individuality（壓抑某人的個性）"}
+  ],
+  distractor:null
+ }
+);
+
+/* ============================================================
+   R1 — PART II : Idioms & Phrases
+   ============================================================ */
+const R1_part2 = [
+ {
+  headword:"cost an arm and a leg", pos:"", meaning:"極為昂貴／花費一大筆錢",
+  example:{
+    en:"Don't be ridiculous! Buying such a luxurious house will surely cost an arm and a leg!",
+    zh:"別傻了！買如此一間豪華的房子將必然非常昂貴！",
+    chunks:["Don't be ridiculous","cost an arm and a leg"]
+  },
+  collocations:[
+    {en:"cost an arm and a leg", zh:"形容某事物的代價或花費極高，等同於 cost a fortune 或 cost a lot of money。"},
+    {en:"His new sports car cost him an arm and a leg.", zh:"（範例）他的新跑車花了他一大筆錢。"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>【字面 vs 隱喻】</strong>字面意思：付出「一條手臂和一條腿」作為代價。比喻意思：花費極高。<br><strong>【句型結構】</strong>主詞通常是「昂貴的行為（V-ing）」或「高價商品（N）」，動詞 cost 的過去式與過去分詞依然是 <span class="en font-semibold">cost</span>（不規則變化：cost - cost - cost）。</p>`
+ },
+ {
+  headword:"give...a hand", pos:"", meaning:"幫助…… / 伸出援手",
+  example:{
+    en:"Sammy saw a little girl trying to lift a heavy suitcase onto the bus and rushed over to give her a hand.",
+    zh:"Sammy 看見一位小女孩正試圖將一件沉重的行李箱抬到公車上，她衝上前去幫助她。",
+    chunks:["trying to lift a heavy suitcase onto the bus","give her a hand"]
+  },
+  collocations:[
+    {en:"give sb. a hand with + 事物", zh:"協助某人某事（例如：Give me a hand with this heavy table.）"},
+    {en:"give sb. a hand in + V-ing", zh:"協助某人做某事"},
+    {en:"give sb. a big hand", zh:"★特別區分：代表「為某人熱烈鼓掌」（多了一個 big，意思完全不同！）"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>【字面 vs 隱喻】</strong>字面意思：給某人「一隻手」。比喻意思：提供協助。等同於 <span class="en font-semibold">lend a hand, help someone out</span>, 或 <span class="en font-semibold">come to one's assistance</span>。</p>`
+ },
+ {
+  headword:"build on", pos:"", meaning:"以……為基礎；基於……進一步發展",
+  example:{
+    en:"The project will build on the results of previous studies to conduct experiments on rats.",
+    zh:"這計畫將以先前研究的結果為基礎來進行對老鼠的實驗。",
+    chunks:["build on the results of previous studies","conduct experiments on rats"]
+  },
+  collocations:[
+    {en:"build on + O + to VR...", zh:"以……為基礎去做……"},
+    {en:"build A on B", zh:"把 A 建立在 B 的基礎上（被動：A be built on B）"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>【字面 vs 隱喻】</strong>字面意思：在……之上建造建築物。比喻意思：利用過往的成果、經驗或資料作為基礎，進一步開展新的工作。等同於 <span class="en font-semibold">base on, be grounded in</span>。</p>`
+ },
+ {
+  headword:"map out", pos:"", meaning:"詳細規劃；安排",
+  example:{
+    en:"The government has mapped out a plan to help low-income families by providing financial assistance.",
+    zh:"政府已經詳細規劃一個計畫，藉由提供財務援助來幫忙低收入戶。",
+    chunks:["has mapped out a plan","by providing financial assistance"]
+  },
+  collocations:[
+    {en:"map the plan out / map out the plan", zh:"（普通名詞可放中間或後面）詳細規劃計畫"},
+    {en:"map it out (O) / map out it (X)", zh:"若受詞是代名詞（如 it, them），則「必須」放在 map 和 out 中間！"}
+  ],
+  derived:[],
+  distractor:`<p class="zh"><strong>【字面 vs 隱喻】</strong>字面意思：在畫地圖般詳細地標示出來。比喻意思：制定周密詳細的計畫、藍圖或方案。等同於 <span class="en font-semibold">plan out in detail, lay out, chart out</span>。<br><strong>【★代名詞位置規則（可分片語）】</strong>map out 為「可分雙字及物動詞片語」。若受詞是【普通名詞】（如 the plan），可放在中間或後面；若受詞是【代名詞】（如 it, them），則<strong class="text-rose">必須放在中間</strong>。</p>`
+ }
+];
+</script>
+
+<script>
+/* ============================================================
+   RENDER — vocab cards
+   ============================================================ */
+function colloBlock(list){
+  if(!list || !list.length) return '';
+  return `<div class="rounded-xl bg-tealsoft/50 border border-teal/15 p-4">
+    <p class="zh text-teal font-bold text-sm mb-2">★ 重要搭配用法</p>
+    <ul class="space-y-2">${list.map(c=>`
+      <li class="text-sm">
+        <span class="en font-semibold text-ink inline-flex items-center gap-1.5"><span class="say">${c.en}</span>${speakBtn()}</span>
+        <span class="zh text-ink/50"> ➔ </span>
+        <span class="zh text-ink/80">${c.zh}</span>
+      </li>`).join('')}</ul>
+  </div>`;
+}
+function derivedBlock(list){
+  if(!list || !list.length) return '';
+  return `<div class="space-y-3">
+    <p class="zh text-rose font-bold text-sm">📎 延伸／衍生字</p>
+    ${list.map(d=>{
+      const ex = d.exEn ? `<p class="en text-sm text-ink/90 mb-1"><span class="zh text-ink/50">例：</span>${say(d.exEn)}</p>` : '';
+      const zh = d.exZh ? `<p class="zh text-sm text-ink/70 mb-1">中譯：${d.exZh}</p>` : '';
+      const co = d.collo ? `<p class="zh text-sm text-ink/80"><span class="text-ink/50">搭配：</span>${d.collo}</p>` : '';
+      return `
+      <div class="rounded-xl border border-rose/20 bg-rosesoft/40 p-4">
+        <p class="mb-1"><span class="en font-bold text-rose inline-flex items-center gap-1.5"><span class="say">${d.word}</span>${speakBtn(d.word)}</span>
+          <span class="zh text-ink/60 text-sm"> ${d.pos} ${d.meaning}</span></p>
+        ${ex}${zh}${co}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function accordionBtn(id, label, icon, colorClass){
+  return `<button data-target="${id}" class="acc-btn w-full flex items-center justify-between gap-2 text-left ${colorClass} rounded-xl px-4 py-3 zh font-semibold text-sm transition hover:brightness-95">
+    <span class="flex items-center gap-2">${icon}${label}</span>
+    <svg class="chev w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+  </button>`;
+}
+function vocabCard(v, idx, prefix){
+  const cid = `${prefix}-${idx}`;
+  const exHl = hl(v.example.en, v.example.chunks);
+  const extra = (v.extraExamples||[]).map(ex=>{
+    const enH = hl(ex.en, ex.chunks);
+    return `<div class="mt-3 pt-3 border-t border-band/70">
+      <p class="en text-[17px] text-ink leading-relaxed">${say(enH)}</p>
+    </div>`;
+  }).join('');
+  const transZh = [v.example.zh, ...(v.extraExamples||[]).map(e=>e.zh)];
+  const hasDistractor = v.distractor && v.distractor.trim().length;
+  const hasAnalysis = (v.collocations && v.collocations.length) || (v.derived && v.derived.length);
+  const posLine = v.pos ? `<span class="zh text-ink/55 text-base font-normal">${v.pos}</span>` : '';
+  return `
+  <article class="bg-card rounded-2xl border border-band shadow-[0_1px_0_rgba(0,0,0,0.02)] overflow-hidden">
+    <div class="p-5 sm:p-6">
+      <div class="flex items-baseline gap-3 flex-wrap mb-3">
+        <span class="font-display text-teal/70 text-sm font-semibold">${idx+1}</span>
+        <h3 class="en text-2xl font-bold text-ink inline-flex items-center gap-2"><span class="say">${v.headword}</span>${speakBtn(v.headword)}</h3>
+        ${posLine}
+        <span class="zh text-ink/80 text-lg">${v.meaning}</span>
+      </div>
+      <p class="en text-[17px] text-ink leading-relaxed">${say(exHl)}</p>
+      ${extra}
+    </div>
+    <div class="px-5 sm:px-6 pb-5 space-y-2">
+      ${hasDistractor ? accordionBtn(cid+'-d','學習秘訣與解析','💡 ','bg-band text-ink') : ''}
+      ${hasAnalysis ? accordionBtn(cid+'-a','語塊與衍生字分析','🧩 ','bg-tealsoft text-teal') : ''}
+      ${accordionBtn(cid+'-t','完整中文翻譯','🌏 ','bg-rosesoft text-rose')}
+    </div>
+    ${hasDistractor ? `
+    <div id="${cid}-d" class="panel px-5 sm:px-6">
+      <div class="pb-5 pt-1"><div class="rounded-xl bg-band/60 border border-ink/10 p-4">${v.distractor}</div></div>
+    </div>` : ''}
+    ${hasAnalysis ? `
+    <div id="${cid}-a" class="panel px-5 sm:px-6">
+      <div class="pb-5 pt-1 space-y-4">
+        ${colloBlock(v.collocations)}
+        ${derivedBlock(v.derived)}
+      </div>
+    </div>` : ''}
+    <div id="${cid}-t" class="panel px-5 sm:px-6">
+      <div class="pb-5 pt-1">
+        <div class="rounded-xl bg-rosesoft/40 border border-rose/15 p-4">
+          ${transZh.map((z,i)=>`<p class="zh text-ink/85 leading-relaxed ${i>0?'mt-2 pt-2 border-t border-rose/15':''}"><span class="text-rose font-bold">中譯${transZh.length>1?(i+1):''}：</span>${z}</p>`).join('')}
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ============================================================
+   RENDER — sentence patterns (L2 Part IV)
+   ============================================================ */
+function patternBlock(p, key){
+  return `
+  <div class="bg-card rounded-2xl border border-band overflow-hidden">
+    <div class="bg-teal text-white p-5 sm:p-6">
+      <p class="zh text-white/70 text-sm mb-1">${p.title}</p>
+      <p class="en text-lg font-semibold leading-snug">${p.formula}</p>
+    </div>
+    <div class="p-5 sm:p-6 space-y-4">
+      <div class="rounded-xl bg-tealsoft/50 border border-teal/15 p-4">
+        <p class="zh text-teal font-bold text-sm mb-2">語意與語法理解</p>
+        <p class="zh text-sm text-ink/85 mb-3 leading-relaxed">${p.focus}</p>
+        <p class="text-sm text-ink/85"><span class="zh text-teal font-semibold">句型公式：</span><span class="en">${p.form}</span></p>
+      </div>
+      <div class="space-y-2">
+        <p class="zh text-rose font-bold text-sm">課本與生活實例</p>
+        ${p.examples.map(e=>{
+          const m = e.match(/^(.*?)（(.*)）$/);
+          const en = m ? m[1] : e;
+          const zh = m ? m[2] : '';
+          return `<div class="rounded-xl bg-rosesoft/30 border border-rose/15 p-3">
+            <p class="en text-sm text-ink/90">${say(en)}</p>
+            ${zh?`<p class="zh text-xs text-ink/60 mt-1">${zh}</p>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+      ${accordionBtn(key+'-tip','★ 避坑秘訣','🎯 ','bg-band text-ink')}
+      <div id="${key}-tip" class="panel">
+        <div class="pt-2"><div class="rounded-xl bg-band/60 border border-ink/10 p-4"><p class="zh text-sm text-ink/85 leading-relaxed">${p.tip}</p></div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   MOUNT ALL
+   ============================================================ */
+document.getElementById('L2-part1-cards').innerHTML = L2_part1.map((v,i)=>vocabCard(v,i,'l2p1')).join('');
+document.getElementById('L2-part2-cards').innerHTML = L2_part2.map((v,i)=>vocabCard(v,i,'l2p2')).join('');
+document.getElementById('L2-part3-cards').innerHTML = L2_part3.map((v,i)=>vocabCard(v,i,'l2p3')).join('');
+document.getElementById('L2-part4-content').innerHTML = L2_patterns.map((p,i)=>patternBlock(p,'l2pat'+i)).join('');
+document.getElementById('R1-part1-cards').innerHTML = R1_part1.map((v,i)=>vocabCard(v,i,'r1p1')).join('');
+document.getElementById('R1-part2-cards').innerHTML = R1_part2.map((v,i)=>vocabCard(v,i,'r1p2')).join('');
+
+/* ============================================================
+   NAV per lesson
+   ============================================================ */
+const NAVS = {
+  L2: [
+    {href:'#L2-part1', label:'Part I 生產字彙'},
+    {href:'#L2-part2', label:'Part II 片語'},
+    {href:'#L2-part3', label:'Part III 辨識字彙'},
+    {href:'#L2-part4', label:'Part IV 句型'}
+  ],
+  R1: [
+    {href:'#R1-part1', label:'Part I 生產字彙'},
+    {href:'#R1-part2', label:'Part II 片語'}
+  ]
+};
+const subnav = document.getElementById('subnav');
+function buildNav(lesson){
+  subnav.innerHTML = NAVS[lesson].map(n=>`<a href="${n.href}" class="navlink text-ink/60 hover:text-teal">${n.label}</a>`).join('');
+  attachSpy(lesson);
+}
+
+/* ============================================================
+   LESSON SWITCH
+   ============================================================ */
+let currentLesson = 'L2';
+const tabs = [...document.querySelectorAll('.lesson-tab')];
+const panes = { L2: document.querySelector('[data-pane="L2"]'), R1: document.querySelector('[data-pane="R1"]') };
+function switchLesson(lesson){
+  if(lesson===currentLesson) return;
+  Speech.stopAll();
+  currentLesson = lesson;
+  tabs.forEach(t=>t.classList.toggle('active', t.dataset.lesson===lesson));
+  Object.entries(panes).forEach(([k,el])=>{ el.hidden = (k!==lesson); });
+  buildNav(lesson);
+  window.scrollTo({top:0, behavior:'auto'});
+}
+tabs.forEach(t=>t.addEventListener('click', ()=>switchLesson(t.dataset.lesson)));
+
+/* ============================================================
+   SPEAK + ACCORDION delegation
+   ============================================================ */
+document.addEventListener('click', e=>{
+  const sbtn = e.target.closest('.speak-btn');
+  if(sbtn){
+    e.preventDefault();
+    if(sbtn.dataset.word){ Speech.speakWord(sbtn.dataset.word, sbtn); }
+    else{
+      let sayEl = sbtn.previousElementSibling && sbtn.previousElementSibling.classList.contains('say')
+                  ? sbtn.previousElementSibling
+                  : (sbtn.parentElement.querySelector('.say'));
+      if(sayEl) Speech.speakSentence(sayEl, sbtn);
+    }
+    return;
+  }
+  const btn = e.target.closest('.acc-btn');
+  if(!btn) return;
+  const panel = document.getElementById(btn.dataset.target);
+  const chev = btn.querySelector('.chev');
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+});
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Speech.stopAll(); });
+if(!Speech.supported){ document.getElementById('speech-warn').classList.remove('hidden'); }
+
+/* ============================================================
+   SCROLLSPY
+   ============================================================ */
+let spy = null;
+function attachSpy(lesson){
+  if(spy) spy.disconnect();
+  const ids = NAVS[lesson].map(n=>n.href.slice(1));
+  const sections = ids.map(id=>document.getElementById(id)).filter(Boolean);
+  const links = [...subnav.querySelectorAll('.navlink')];
+  spy = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+en.target.id));
+      }
+    });
+  },{rootMargin:'-25% 0px -65% 0px'});
+  sections.forEach(s=>spy.observe(s));
+}
+
+/* init */
+buildNav('L2');
+</script>
+
+</body>
+</html>
