@@ -13,16 +13,18 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        ink: '#2A2E37',
-        paper: '#FBF9F4',
+        /* names kept from original theme; recoloured to a lavender / purple NYLON palette */
+        ink: '#37304A',        /* deep plum-grey text */
+        paper: '#F5F1FA',      /* soft lavender paper */
         card: '#FFFFFF',
-        teal: '#2F7D6E',
-        tealsoft: '#E4F0EC',
-        rose: '#C97A6D',
-        rosesoft: '#F7E9E5',
-        band: '#EFEAE0',
-        indigo: '#4C5B8A',
-        indigosoft: '#E7EAF3',
+        teal: '#7A5CC4',       /* primary = violet (was teal) */
+        tealsoft: '#EAE3F8',   /* violet tint */
+        rose: '#D06AA8',       /* accent = magenta-pink (was terracotta) */
+        rosesoft: '#FBE7F2',   /* pink tint */
+        band: '#E7DEF3',       /* dividers / soft bands */
+        indigo: '#5647A0',
+        indigosoft: '#E7E2F5',
+        plum: '#4A2E6B',       /* headline purple, matches NYLON logo */
       },
       fontFamily: {
         display: ['Fraunces', 'Noto Sans TC', 'serif'],
@@ -35,12 +37,20 @@ tailwind.config = {
 </script>
 <style>
   html { scroll-behavior: smooth; }
-  body { background:#FBF9F4; color:#2A2E37; }
+  body {
+    color:#37304A;
+    background:
+      radial-gradient(1200px 600px at 12% -8%, #F3E9FF 0%, rgba(243,233,255,0) 60%),
+      radial-gradient(1000px 520px at 96% -6%, #FCE7F3 0%, rgba(252,231,243,0) 55%),
+      linear-gradient(180deg, #F5F1FA 0%, #F1ECF8 100%);
+    background-attachment: fixed;
+  }
+  /* highlighter — violet→pink glow, matches NYLON cover */
   .chunk {
-    background: linear-gradient(180deg, transparent 12%, #FCE96A 12%, #FCE96A 90%, transparent 90%);
+    background: linear-gradient(180deg, transparent 10%, #E9C9F5 10%, #F3C6E4 92%, transparent 92%);
     font-weight: 700;
-    padding: 0 .12em;
-    border-radius: 2px;
+    padding: 0 .14em;
+    border-radius: 3px;
   }
   .en { font-family:'Figtree','Noto Sans TC',sans-serif; line-height:1.75; }
   .zh { font-family:'Noto Sans TC',sans-serif; line-height:2.0; }
@@ -51,53 +61,96 @@ tailwind.config = {
   details > summary { list-style:none; }
   details > summary::-webkit-details-marker { display:none; }
   @media (prefers-reduced-motion: reduce){ .panel{transition:none;} .chev{transition:none;} html{scroll-behavior:auto;} }
-  .navlink.active { color:#2F7D6E; font-weight:700; }
-  ::selection { background:#FCE96A; }
+  .navlink.active { color:#7A5CC4; font-weight:700; }
+  ::selection { background:#E9C9F5; color:#37304A; }
+
+  /* houndstooth texture (the cover's hat pattern) for hero + section labels */
+  .houndstooth{
+    background-color:#EAE3F8;
+    background-image:
+      linear-gradient(45deg, #cbb6ec 25%, transparent 25%, transparent 75%, #cbb6ec 75%),
+      linear-gradient(45deg, #cbb6ec 25%, transparent 25%, transparent 75%, #cbb6ec 75%);
+    background-size:16px 16px;
+    background-position:0 0, 8px 8px;
+    opacity:.5;
+  }
 
   .speak-btn{
     display:inline-flex; align-items:center; justify-content:center;
     width:1.9rem; height:1.9rem; flex:0 0 auto;
     border-radius:9999px; cursor:pointer;
-    background:#E4F0EC; color:#2F7D6E; border:1px solid rgba(47,125,110,.2);
+    background:#EAE3F8; color:#7A5CC4; border:1px solid rgba(122,92,196,.25);
     transition:background .15s, transform .1s; vertical-align:middle;
   }
-  .speak-btn:hover{ background:#d4e8e1; }
+  .speak-btn:hover{ background:#ddd0f4; }
   .speak-btn:active{ transform:scale(.92); }
-  .speak-btn.playing{ background:#2F7D6E; color:#fff; }
-  .speak-btn.loading{ background:#E4F0EC; color:#2F7D6E; }
+  .speak-btn.playing{ background:#7A5CC4; color:#fff; }
+  .speak-btn.loading{ background:#EAE3F8; color:#7A5CC4; }
   .speak-btn .ico-spin{ animation:spin .8s linear infinite; }
   @keyframes spin{ to{ transform:rotate(360deg); } }
   .speak-btn svg{ width:1rem; height:1rem; }
-  .speak-btn:focus-visible{ outline:2px solid #2F7D6E; outline-offset:2px; }
+  .speak-btn:focus-visible{ outline:2px solid #7A5CC4; outline-offset:2px; }
   .rw{ border-radius:3px; padding:0 .04em; transition:background .06s; }
-  .rw.spoken{ background:#FCE96A; box-shadow:0 0 0 2px #FCE96A; }
+  .rw.spoken{ background:#E9C9F5; box-shadow:0 0 0 2px #E9C9F5; }
   .say{ display:inline; }
   @media (prefers-reduced-motion: reduce){ .speak-btn{transition:none;} .rw{transition:none;} }
 
   /* lesson tab switch */
   .lesson-tab{ transition:all .2s; }
-  .lesson-tab.active{ background:#2F7D6E; color:#fff; }
+  .lesson-tab.active{ background:#7A5CC4; color:#fff; border-color:#7A5CC4 !important; }
   .lesson-pane[hidden]{ display:none; }
+
+  /* NYLON-style display headline */
+  .nylon-title{
+    font-family:'Fraunces','Noto Sans TC',serif;
+    font-weight:600; letter-spacing:-.02em; color:#4A2E6B;
+  }
+
+  /* ---- hard fallbacks for JS-injected UI (independent of CDN scan timing) ---- */
+  .acc-btn{ border:1px solid rgba(122,92,196,.12); }
+  .acc-btn .chev{ width:1rem; height:1rem; }
+  /* colour the three accordion button variants explicitly */
+  .acc-btn.bg-band{ background:#E7DEF3 !important; color:#4A2E6B !important; }
+  .acc-btn.bg-tealsoft{ background:#EAE3F8 !important; color:#7A5CC4 !important; }
+  .acc-btn.bg-rosesoft{ background:#FBE7F2 !important; color:#D06AA8 !important; }
+  /* soft inner panels */
+  .panel .bg-tealsoft\/50{ background:rgba(234,227,248,.55) !important; }
+  .panel .bg-rosesoft\/40{ background:rgba(251,231,242,.5) !important; }
+  .panel .bg-band\/60{ background:rgba(231,222,243,.6) !important; }
+  /* section Part chip + speak buttons rely on these even before CDN paints */
+  h2 ~ span, .section-chip{ }
+  .en.bg-teal, .bg-teal.rounded-lg{ background:#7A5CC4 !important; color:#fff !important; }
 </style>
 </head>
 <body class="font-sans antialiased">
 
-<!-- ===== HERO ===== -->
+<!-- ===== HERO (NYLON-cover style) ===== -->
 <header class="relative overflow-hidden border-b border-band">
-  <div class="max-w-5xl mx-auto px-5 sm:px-8 pt-14 pb-10">
-    <p class="zh text-teal font-medium tracking-wide text-sm mb-3">高中英文 · 生字片語自學講義</p>
-    <h1 class="font-display text-4xl sm:text-6xl font-semibold leading-[1.05] tracking-tight">
-      L2 &amp; R1 互動講義
+  <!-- houndstooth accent strip top-right -->
+  <div class="houndstooth absolute top-0 right-0 w-40 sm:w-64 h-24 sm:h-32 rounded-bl-[3rem] pointer-events-none"></div>
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 pt-12 pb-10 relative">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="zh text-teal font-semibold tracking-[.2em] text-xs uppercase">Study Issue</span>
+      <span class="h-px flex-1 bg-band"></span>
+      <span class="en text-plum/70 font-semibold text-sm tracking-widest">NOV 2026 · 11</span>
+    </div>
+    <h1 class="nylon-title text-6xl sm:text-8xl leading-[.9] tracking-tighter">
+      ENGLISH
     </h1>
-    <p class="zh text-lg sm:text-xl text-ink/70 mt-3">L2 Language Construction ｜ R1 3D Printing: Imagination Is the Only Limit</p>
-    <div class="zh mt-6 max-w-2xl text-ink/75 leading-relaxed bg-rosesoft/60 border border-rose/20 rounded-2xl px-5 py-4">
-      這是一份為你設計的<strong>零刪減</strong>互動筆記，收錄 <strong>L2</strong> 與 <strong>R1</strong> 兩課。卡片預設只顯示<strong>單字與例句</strong>，句子裡的<span class="chunk">核心搭配語塊</span>會用螢光黃標出來。想看更多時，再點開卡片下方的按鈕：搭配語塊分析、衍生字、完整中文翻譯。一次只看一層，不必怕文字牆。
+    <div class="flex items-end gap-4 flex-wrap">
+      <h1 class="nylon-title text-6xl sm:text-8xl leading-[.9] tracking-tighter text-teal">STUDY</h1>
+      <p class="zh text-ink/55 text-sm mb-2">高中英文 · 生字片語自學講義</p>
+    </div>
+    <p class="zh text-lg sm:text-xl text-ink/70 mt-4">L2 Language Construction ｜ R1 3D Printing: Imagination Is the Only Limit</p>
+
+    <div class="zh mt-6 max-w-2xl text-ink/75 leading-relaxed bg-white/70 backdrop-blur border border-teal/15 rounded-2xl px-5 py-4 shadow-[0_2px_20px_rgba(122,92,196,.08)]">
+      這是一份為你設計的<strong>零刪減</strong>互動筆記，收錄 <strong>L2</strong> 與 <strong>R1</strong> 兩課。卡片預設只顯示<strong>單字與例句</strong>，句子裡的<span class="chunk">核心搭配語塊</span>會用紫粉螢光標出來。想看更多時，再點開卡片下方的按鈕：搭配語塊分析、衍生字、完整中文翻譯。一次只看一層，不必怕文字牆。
     </div>
     <div class="mt-6 flex flex-wrap gap-2 text-sm zh">
       <span class="inline-flex items-center gap-2 bg-tealsoft text-teal rounded-full px-3 py-1"><span class="w-2 h-2 rounded-full bg-teal"></span>點按鈕展開／收合</span>
-      <span class="inline-flex items-center gap-2 bg-band text-ink/70 rounded-full px-3 py-1"><span class="chunk px-1">螢光黃</span>＝核心語塊</span>
+      <span class="inline-flex items-center gap-2 bg-rosesoft text-rose rounded-full px-3 py-1"><span class="chunk px-1">螢光</span>＝核心語塊</span>
       <span class="inline-flex items-center gap-2 bg-tealsoft text-teal rounded-full px-3 py-1">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4" style="width:1rem;height:1rem;flex:0 0 auto"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
         單字＝美式真人發音｜例句＝美式朗讀跟讀
       </span>
     </div>
@@ -123,33 +176,37 @@ tailwind.config = {
 <!-- ===================== L2 PANE ===================== -->
 <div class="lesson-pane" data-pane="L2">
   <section id="L2-part1" class="scroll-mt-32 mb-16">
-    <div class="flex items-baseline gap-3 mb-6">
-      <span class="font-display text-teal text-2xl">Part I</span>
-      <h2 class="zh text-2xl font-bold">Words for Production ｜生產字彙</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="en font-display text-white bg-teal rounded-lg px-3 py-1 text-lg font-semibold shadow-[0_2px_10px_rgba(122,92,196,.25)]">Part I</span>
+      <h2 class="zh text-2xl font-bold text-plum">Words for Production ｜生產字彙</h2>
+      <span class="hidden sm:block h-px flex-1 bg-band"></span>
     </div>
     <div id="L2-part1-cards" class="space-y-5"></div>
   </section>
 
   <section id="L2-part2" class="scroll-mt-32 mb-16">
-    <div class="flex items-baseline gap-3 mb-6">
-      <span class="font-display text-teal text-2xl">Part II</span>
-      <h2 class="zh text-2xl font-bold">Idioms &amp; Phrases ｜片語與慣用語</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="en font-display text-white bg-teal rounded-lg px-3 py-1 text-lg font-semibold shadow-[0_2px_10px_rgba(122,92,196,.25)]">Part II</span>
+      <h2 class="zh text-2xl font-bold text-plum">Idioms &amp; Phrases ｜片語與慣用語</h2>
+      <span class="hidden sm:block h-px flex-1 bg-band"></span>
     </div>
     <div id="L2-part2-cards" class="space-y-5"></div>
   </section>
 
   <section id="L2-part3" class="scroll-mt-32 mb-16">
-    <div class="flex items-baseline gap-3 mb-6">
-      <span class="font-display text-teal text-2xl">Part III</span>
-      <h2 class="zh text-2xl font-bold">Words for Recognition ｜課文辨識字彙</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="en font-display text-white bg-teal rounded-lg px-3 py-1 text-lg font-semibold shadow-[0_2px_10px_rgba(122,92,196,.25)]">Part III</span>
+      <h2 class="zh text-2xl font-bold text-plum">Words for Recognition ｜課文辨識字彙</h2>
+      <span class="hidden sm:block h-px flex-1 bg-band"></span>
     </div>
     <div id="L2-part3-cards" class="space-y-5"></div>
   </section>
 
   <section id="L2-part4" class="scroll-mt-32 mb-16">
-    <div class="flex items-baseline gap-3 mb-6">
-      <span class="font-display text-teal text-2xl">Part IV</span>
-      <h2 class="zh text-2xl font-bold">Sentence Patterns ｜句型剖析</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="en font-display text-white bg-teal rounded-lg px-3 py-1 text-lg font-semibold shadow-[0_2px_10px_rgba(122,92,196,.25)]">Part IV</span>
+      <h2 class="zh text-2xl font-bold text-plum">Sentence Patterns ｜句型剖析</h2>
+      <span class="hidden sm:block h-px flex-1 bg-band"></span>
     </div>
     <div id="L2-part4-content" class="space-y-6"></div>
   </section>
@@ -158,17 +215,19 @@ tailwind.config = {
 <!-- ===================== R1 PANE ===================== -->
 <div class="lesson-pane" data-pane="R1" hidden>
   <section id="R1-part1" class="scroll-mt-32 mb-16">
-    <div class="flex items-baseline gap-3 mb-6">
-      <span class="font-display text-teal text-2xl">Part I</span>
-      <h2 class="zh text-2xl font-bold">Words for Production ｜生產字彙</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="en font-display text-white bg-teal rounded-lg px-3 py-1 text-lg font-semibold shadow-[0_2px_10px_rgba(122,92,196,.25)]">Part I</span>
+      <h2 class="zh text-2xl font-bold text-plum">Words for Production ｜生產字彙</h2>
+      <span class="hidden sm:block h-px flex-1 bg-band"></span>
     </div>
     <div id="R1-part1-cards" class="space-y-5"></div>
   </section>
 
   <section id="R1-part2" class="scroll-mt-32 mb-16">
-    <div class="flex items-baseline gap-3 mb-6">
-      <span class="font-display text-teal text-2xl">Part II</span>
-      <h2 class="zh text-2xl font-bold">Idioms &amp; Phrases ｜片語與慣用語</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="en font-display text-white bg-teal rounded-lg px-3 py-1 text-lg font-semibold shadow-[0_2px_10px_rgba(122,92,196,.25)]">Part II</span>
+      <h2 class="zh text-2xl font-bold text-plum">Idioms &amp; Phrases ｜片語與慣用語</h2>
+      <span class="hidden sm:block h-px flex-1 bg-band"></span>
     </div>
     <div id="R1-part2-cards" class="space-y-5"></div>
   </section>
@@ -176,9 +235,12 @@ tailwind.config = {
 
 </main>
 
-<footer class="border-t border-band mt-8">
-  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-8 zh text-sm text-ink/50">
-    L2 &amp; R1 — Complete Study Guide ｜ 零刪減互動版 · 為專注學習而設計
+<footer class="border-t border-band mt-8 relative overflow-hidden">
+  <div class="houndstooth absolute bottom-0 left-0 w-32 sm:w-48 h-16 sm:h-20 rounded-tr-[2.5rem] pointer-events-none"></div>
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-8 zh text-sm text-ink/50 relative flex items-center gap-3 flex-wrap">
+    <span class="en font-display text-plum font-semibold tracking-tight">ENGLISH STUDY</span>
+    <span class="h-4 w-px bg-band"></span>
+    <span>L2 &amp; R1 — Complete Study Guide ｜ 零刪減互動版 · 為專注學習而設計</span>
   </div>
 </footer>
 
@@ -1416,11 +1478,12 @@ function vocabCard(v, idx, prefix){
   const hasAnalysis = (v.collocations && v.collocations.length) || (v.derived && v.derived.length);
   const posLine = v.pos ? `<span class="zh text-ink/55 text-base font-normal">${v.pos}</span>` : '';
   return `
-  <article class="bg-card rounded-2xl border border-band shadow-[0_1px_0_rgba(0,0,0,0.02)] overflow-hidden">
-    <div class="p-5 sm:p-6">
+  <article class="bg-card rounded-2xl border border-band shadow-[0_4px_24px_rgba(122,92,196,.07)] overflow-hidden relative">
+    <span class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-teal to-rose"></span>
+    <div class="p-5 sm:p-6 pl-6 sm:pl-7">
       <div class="flex items-baseline gap-3 flex-wrap mb-3">
-        <span class="font-display text-teal/70 text-sm font-semibold">${idx+1}</span>
-        <h3 class="en text-2xl font-bold text-ink inline-flex items-center gap-2"><span class="say">${v.headword}</span>${speakBtn(v.headword)}</h3>
+        <span class="en inline-flex items-center justify-center w-7 h-7 rounded-full bg-tealsoft text-teal text-sm font-bold shrink-0">${idx+1}</span>
+        <h3 class="en text-2xl font-bold text-plum inline-flex items-center gap-2"><span class="say">${v.headword}</span>${speakBtn(v.headword)}</h3>
         ${posLine}
         <span class="zh text-ink/80 text-lg">${v.meaning}</span>
       </div>
@@ -1458,9 +1521,9 @@ function vocabCard(v, idx, prefix){
    ============================================================ */
 function patternBlock(p, key){
   return `
-  <div class="bg-card rounded-2xl border border-band overflow-hidden">
-    <div class="bg-teal text-white p-5 sm:p-6">
-      <p class="zh text-white/70 text-sm mb-1">${p.title}</p>
+  <div class="bg-card rounded-2xl border border-band overflow-hidden shadow-[0_4px_24px_rgba(122,92,196,.07)]">
+    <div class="text-white p-5 sm:p-6" style="background:linear-gradient(120deg,#7A5CC4 0%,#9B5CB8 55%,#D06AA8 100%)">
+      <p class="zh text-white/75 text-sm mb-1">${p.title}</p>
       <p class="en text-lg font-semibold leading-snug">${p.formula}</p>
     </div>
     <div class="p-5 sm:p-6 space-y-4">
