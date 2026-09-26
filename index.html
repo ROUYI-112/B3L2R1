@@ -169,7 +169,12 @@ tailwind.config = {
       </span>
     </div>
     <p id="speech-warn" class="zh text-sm text-rose mt-3 hidden">⚠ 目前的瀏覽器不支援語音朗讀，建議改用 Chrome、Edge 或 Safari 開啟本頁。</p>
-    <p class="zh text-xs text-ink/45 mt-2">💡 單字發音為線上真人音檔（需連網）；少數字典查無真人音檔時，會自動改用美式語音合成。</p>
+    <label class="mt-4 inline-flex items-center gap-2 cursor-pointer select-none bg-white/70 border border-teal/20 rounded-full pl-3 pr-4 py-1.5 text-sm zh text-ink/75 hover:bg-white transition">
+      <input id="fast-mode" type="checkbox" class="peer sr-only">
+      <span class="relative w-9 h-5 rounded-full bg-band peer-checked:bg-teal transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow after:transition-transform peer-checked:after:translate-x-4"></span>
+      ⚡ 極速發音模式<span class="text-ink/45">（直接用內建語音，零等待）</span>
+    </label>
+    <p class="zh text-xs text-ink/45 mt-2">💡 預設用線上真人音檔（需連網）；已在背景預先載入，點按幾乎立刻出聲。若嫌慢，打開上方「極速模式」即可零等待。</p>
   </div>
 </header>
 
@@ -315,7 +320,11 @@ const Speech = (function(){
     const key = word.toLowerCase().replace(/[^a-z\- ]/g,'').trim();
     if(key in audioCache) return audioCache[key];
     try{
-      const r = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(key), {mode:'cors'});
+      // abort the lookup if the dictionary API is slow (max 1.2s), so the button never hangs
+      const ctrl = new AbortController();
+      const timer = setTimeout(()=>ctrl.abort(), 1200);
+      const r = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(key), {mode:'cors', signal:ctrl.signal});
+      clearTimeout(timer);
       if(!r.ok) throw 0;
       const data = await r.json();
       let list=[];
@@ -326,18 +335,46 @@ const Speech = (function(){
     }catch(_){ audioCache[key] = null; }
     return audioCache[key];
   }
+  // Warm the cache in the background so taps are instant. Runs after load, gently (never blocks the UI).
+  function prefetchAll(words){
+    let i=0;
+    const step=()=>{
+      if(i>=words.length) return;
+      const w=words[i++];
+      fetchAudio(w).catch(()=>{}).finally(()=>{
+        (window.requestIdleCallback || window.setTimeout)(step, {timeout:400});
+      });
+    };
+    (window.requestIdleCallback || window.setTimeout)(step, {timeout:1500});
+  }
   async function speakWord(word, btn){
     if(audioBtn===btn){ stopAll(); return; }
-    stopAll(); setState(btn,'loading');
+    stopAll();
+    // Fast mode: skip the network completely, speak with the built-in voice right away.
+    if(window.__fastSpeech){ ttsWord(word, btn); return; }
+    const key = word.toLowerCase().replace(/[^a-z\- ]/g,'').trim();
+    // Fast path: audio already cached from prefetch → play immediately, no spinner.
+    if(key in audioCache){
+      const url = audioCache[key];
+      if(url){ playUrl(url, word, btn); } else { ttsWord(word, btn); }
+      return;
+    }
+    // Not cached yet: show spinner, but guarantee sound within ~1.3s no matter what.
+    setState(btn,'loading');
+    let done=false;
+    const safety = setTimeout(()=>{ if(!done){ done=true; ttsWord(word, btn); } }, 1300);
     let url=null; try{ url = await fetchAudio(word); }catch(_){ url=null; }
-    if(url){
-      if(!audioEl){ audioEl=new Audio(); }
-      audioEl.src=url; audioBtn=btn;
-      audioEl.onended=()=>{ if(audioBtn===btn){ resetBtn(btn); audioBtn=null; } };
-      audioEl.onerror=()=>{ if(audioBtn===btn){ audioBtn=null; ttsWord(word, btn); } };
-      setState(btn,'playing');
-      try{ await audioEl.play(); }catch(_){ audioBtn=null; ttsWord(word, btn); }
-    }else{ ttsWord(word, btn); }
+    if(done) return;                 // safety timer already fired → TTS is playing
+    done=true; clearTimeout(safety);
+    if(url){ playUrl(url, word, btn); } else { ttsWord(word, btn); }
+  }
+  function playUrl(url, word, btn){
+    if(!audioEl){ audioEl=new Audio(); }
+    audioEl.src=url; audioBtn=btn;
+    audioEl.onended=()=>{ if(audioBtn===btn){ resetBtn(btn); audioBtn=null; } };
+    audioEl.onerror=()=>{ if(audioBtn===btn){ audioBtn=null; ttsWord(word, btn); } };
+    setState(btn,'playing');
+    audioEl.play().catch(()=>{ audioBtn=null; ttsWord(word, btn); });
   }
   function ttsWord(word, btn){
     if(!supported){ resetBtn(btn); return; }
@@ -383,7 +420,7 @@ const Speech = (function(){
     u.onerror=()=>{ if(current&&current.btn===btn) stopAll(); };
     current={btn,spans}; setState(btn,'playing'); speechSynthesis.speak(u);
   }
-  return { supported, speakWord, speakSentence, stopAll };
+  return { supported, speakWord, speakSentence, stopAll, prefetchAll };
 })();
 
 function speakBtn(word){
@@ -1662,6 +1699,31 @@ function attachSpy(lesson){
 
 /* init */
 buildNav('L2');
+
+/* Warm the pronunciation cache in the background so tapping a word plays instantly. */
+(function(){
+  const words = new Set();
+  [L2_part1, L2_part2, L2_part3, R1_part1, R1_part2].forEach(arr=>arr.forEach(v=>{
+    if(v.headword) words.add(v.headword);
+    (v.derived||[]).forEach(d=>{ if(d.word) words.add(d.word); });
+  }));
+  const start = ()=> Speech.prefetchAll([...words]);
+  if(document.readyState==='complete') start();
+  else window.addEventListener('load', start);
+})();
+
+/* Fast-mode toggle: speak with the built-in voice, zero network wait. Remembered across visits. */
+(function(){
+  const cb=document.getElementById('fast-mode');
+  if(!cb) return;
+  let saved=false;
+  try{ saved = localStorage.getItem('fastSpeech')==='1'; }catch(_){}
+  window.__fastSpeech = saved; cb.checked = saved;
+  cb.addEventListener('change', ()=>{
+    window.__fastSpeech = cb.checked;
+    try{ localStorage.setItem('fastSpeech', cb.checked?'1':'0'); }catch(_){}
+  });
+})();
 </script>
 
 </body>
